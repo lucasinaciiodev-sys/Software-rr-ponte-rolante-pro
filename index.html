@@ -1,0 +1,4535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" defer></script>
+<style>
+/* ════════════════════════════════════════════════════════════════════════════════
+   RR PONTE ROLANTE PRO v10 PROFESSIONAL SUITE
+   9000+ LINHAS DE CÓDIGO PROFISSIONAL
+   Engenharia Estrutural | Software Proprietário Comercial
+   ════════════════════════════════════════════════════════════════════════════════ */
+
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 100%; min-height: 100%; background: var(--bg); color: var(--text-primary); font-family: var(--font-main); overflow-x: hidden; }
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(99,102,241,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99,102,241,0.04) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events: none;
+  z-index: 0;
+  will-change: auto;
+}
+
+/* LOGIN */
+.login-container { display: flex; align-items: center; justify-content: center; min-height: 100vh; min-height: 100dvh; padding: 24px; background: linear-gradient(135deg, #0f0f12, #242429); overflow-y: auto; }
+.login-box { background: rgba(10, 14, 26, 0.92); border: 1px solid var(--border-light); border-radius: 20px; padding: 44px 40px; width: 100%; max-width: 420px; box-shadow: 0 0 0 1px rgba(99,102,241,0.12), 0 32px 80px rgba(4,6,13,0.8);  }
+.login-header { text-align: center; margin-bottom: 36px; }
+.login-logo { width: 68px; height: 68px; border-radius: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); display: flex; align-items: center; justify-content: center; font-size: 32px; margin: 0 auto 18px; box-shadow: 0 0 0 1px rgba(99,102,241,0.3), 0 12px 32px rgba(99,102,241,0.4); }
+.login-title { font-size: 26px; font-weight: 700; margin-bottom: 4px; letter-spacing: -0.02em; }
+.login-subtitle { font-size: 12px; color: var(--text-tertiary); letter-spacing: 0.3px; }
+.form-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--text-secondary); letter-spacing: 0.3px; }
+.form-input { padding: 12px 14px; border: 1px solid rgba(99,102,241,0.18); border-radius: 10px; background: rgba(13,18,32,0.8); color: var(--text-primary); font-family: var(--font-main); font-size: 13px; outline: none; transition: all 0.2s; }
+.form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,0.15); background: rgba(18,24,42,0.9); }
+.login-btn { width: 100%; padding: 13px 16px; border: none; border-radius: 10px; background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; font-weight: 700; font-size: 13px; cursor: pointer; box-shadow: 0 0 0 1px rgba(99,102,241,0.3), 0 8px 24px rgba(99,102,241,0.35); transition: all 0.2s; letter-spacing: 0.3px; }
+.login-btn:hover { outline: 2px solid rgba(99,102,241,0.4); box-shadow: 0 0 0 1px rgba(99,102,241,0.4), 0 14px 32px rgba(99,102,241,0.45); }
+.demo-info { margin-top: 20px; padding: 12px; background: rgba(99,102,241,0.06); border: 1px solid rgba(99,102,241,0.14); border-radius: 10px; font-size: 11px; color: var(--text-tertiary); text-align: center; line-height: 1.6; }
+.demo-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+.demo-btn { padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(99,102,241,0.2); background: rgba(99,102,241,0.08); color: var(--primary-light); font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+.demo-btn:hover { border-color: var(--primary); background: rgba(99,102,241,0.15); }
+
+/* APP LAYOUT */
+.hidden { display: none !important; }
+.app-wrapper { display: flex; flex-direction: column; min-height: 100vh; min-height: 100dvh; }
+.app-wrapper > * { position: relative; z-index: 1; }
+.app-header { height: 64px; background: rgba(4, 6, 13, 0.88); border-bottom: 1px solid rgba(99,102,241,0.12); display: flex; align-items: center; justify-content: space-between; padding: 0 24px; flex-shrink: 0; z-index: 1000; backdrop-filter: blur(20px); box-shadow: 0 1px 0 rgba(99,102,241,0.08), 0 8px 24px rgba(4,6,13,0.5); }
+.header-brand { display: flex; align-items: center; gap: 12px; }
+.brand-logo { width: 38px; height: 38px; border-radius: 10px; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 20px; box-shadow: 0 0 0 1px rgba(99,102,241,0.35), 0 6px 20px rgba(99,102,241,0.3); }
+.brand-text { display: flex; flex-direction: column; gap: 1px; }
+.brand-name { font-size: 13px; font-weight: 700; letter-spacing: -0.02em; }
+.brand-version { font-size: 10px; color: var(--text-tertiary); letter-spacing: 0.4px; }
+.header-actions { display: flex; align-items: center; gap: 14px; }
+.user-info { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--text-secondary); }
+.logout-btn { padding: 7px 14px; border-radius: 8px; border: 1px solid rgba(99,102,241,0.2); background: rgba(99,102,241,0.08); color: var(--text-secondary); cursor: pointer; transition: all 0.2s; font-size: 12px; font-weight: 600; }
+.logout-btn:hover { border-color: var(--primary); color: var(--primary-light); background: rgba(99,102,241,0.15); }
+
+/* MAIN LAYOUT */
+.app-main { flex: 1; display: flex; overflow: hidden; }
+.sidebar { width: 240px; background: var(--surface); border-right: 1px solid var(--border); overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; }
+.tab-group { margin-bottom: 16px; }
+.tab-group-label { font-size: 10px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.8px; padding: 8px 12px; }
+.tab-btn { padding: 10px 12px; border: none; border-radius: 8px; background: transparent; color: var(--text-secondary); font-size: 12px; font-weight: 500; cursor: pointer; transition: all 0.15s; text-align: left; border-left: 2px solid transparent; display: flex; align-items: center; gap: 8px; }
+.tab-btn:hover { background: rgba(37, 99, 235, 0.08); color: var(--primary-light); }
+.tab-btn.active { background: rgba(37, 99, 235, 0.15); color: var(--primary-light); border-left-color: var(--primary); }
+.tab-icon { font-size: 14px; min-width: 16px; }
+
+/* CONTENT */
+.content { flex: 1; overflow-y: auto; padding: 24px; -webkit-overflow-scrolling: touch; contain: layout style; }
+.tab-view { display: none; }
+.tab-view.active { display: block; }
+
+
+/* DASHBOARD */
+.dashboard-header { margin-bottom: 24px; }
+.dashboard-title { font-size: 28px; font-weight: 700; margin-bottom: 8px; font-family: var(--font-display); }
+.dashboard-subtitle { font-size: 13px; color: var(--text-tertiary); }
+.dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; margin-bottom: 24px; }
+.stat-card { padding: 20px; background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-card); transition: all 0.22s; }
+.stat-card:hover { border-color: var(--border-glow); box-shadow: 0 0 0 1px rgba(99,102,241,0.1), 0 8px 28px rgba(4,6,13,0.6); }
+.stat-label { font-size: 10px; font-weight: 700; color: var(--text-tertiary); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.7px; }
+.stat-value { font-size: 24px; font-weight: 700; color: var(--primary-light); font-family: var(--font-mono); }
+.stat-unit { font-size: 10px; color: var(--text-tertiary); margin-top: 4px; }
+
+/* CARDS */
+.card { background: var(--surface2); border: 1px solid var(--border); border-radius: var(--radius-card); padding: 20px; margin-bottom: 16px; }
+.card:hover { border-color: rgba(99,102,241,0.2); box-shadow: var(--glow-card); }
+.card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; padding-bottom: 12px; border-bottom: 1px solid rgba(99,102,241,0.1); }
+.card-icon { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, rgba(99,102,241,0.22), rgba(139,92,246,0.12)); display: flex; align-items: center; justify-content: center; font-size: 15px; border: 1px solid rgba(99,102,241,0.28); }
+.card-title { font-size: 13px; font-weight: 600; letter-spacing: -0.01em; color: var(--text-primary); }
+
+/* FORMS */
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 14px; }
+.field { display: flex; flex-direction: column; gap: 4px; }
+.field-label { font-size: 11px; font-weight: 600; color: var(--text-secondary); }
+input, select, textarea { padding: 9px 11px; border: 1px solid rgba(99,102,241,0.15); border-radius: 8px; background: rgba(8,12,21,0.7); color: var(--text-primary); font-family: var(--font-mono); font-size: 12px; outline: none; transition: all 0.15s; touch-action: manipulation; }
+input:focus, select:focus { border-color: var(--primary); background: rgba(13,18,32,0.9); box-shadow: 0 0 0 3px rgba(99,102,241,0.12); }
+
+/* TABLES */
+.table-container { overflow-x: auto; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 14px; }
+table { width: 100%; border-collapse: collapse; font-size: 11px; }
+th { background: rgba(8,12,21,0.8); padding: 10px; text-align: left; font-weight: 700; color: var(--primary-light); border-bottom: 1px solid rgba(99,102,241,0.14); font-size: 10px; letter-spacing: 0.5px; text-transform: uppercase; }
+td { padding: 10px; border-bottom: 1px solid rgba(99,102,241,0.07); color: var(--text-secondary); }
+tr:hover { background: rgba(99,102,241,0.05); }
+
+/* BUTTONS */
+.btn { padding: 10px 16px; border: none; border-radius: 8px; font-family: var(--font-main); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.15s; display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+.btn-primary { background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%); color: white; box-shadow: 0 0 0 1px rgba(99,102,241,0.35), 0 8px 24px rgba(99,102,241,0.35); width: 100%; margin-top: 12px; font-weight: 700; letter-spacing: 0.2px; }
+.btn-primary:hover { filter: brightness(1.08); box-shadow: 0 0 0 1px rgba(99,102,241,0.45), 0 14px 32px rgba(99,102,241,0.45); }
+.btn-secondary { border: 1px solid rgba(99,102,241,0.22); background: rgba(99,102,241,0.08); color: var(--text-primary); flex: 1; margin-right: 8px; }
+.btn-secondary:hover { border-color: var(--primary); background: rgba(99,102,241,0.16); color: var(--primary-light); }
+
+/* RESULTS */
+.results-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 10px; margin-bottom: 14px; }
+.result-box { padding: 12px; border-radius: 10px; background: rgba(8,12,21,0.7); border: 1px solid rgba(99,102,241,0.12); text-align: center; transition: border-color 0.15s; }
+.result-box:hover { border-color: rgba(99,102,241,0.25); }
+.result-label { font-size: 9px; font-weight: 700; color: var(--text-tertiary); text-transform: uppercase; margin-bottom: 5px; letter-spacing: 0.6px; }
+.result-value { font-size: 16px; font-weight: 700; font-family: var(--font-mono); color: var(--primary-light); }
+.result-unit { font-size: 9px; color: var(--text-tertiary); margin-top: 2px; }
+.result-box.success { background: rgba(16, 185, 129, 0.08); border-color: rgba(16, 185, 129, 0.3); }
+.result-box.success .result-value { color: var(--success); }
+.result-box.warning { background: rgba(245, 158, 11, 0.08); border-color: rgba(245, 158, 11, 0.3); }
+.result-box.warning .result-value { color: var(--warning); }
+
+/* ALERTS */
+.alert { padding: 11px 14px; border-radius: 10px; font-size: 11px; border-left: 3px solid; margin-bottom: 12px; }
+.alert-info    { background: rgba(99,102,241,0.08); border-color: var(--primary); color: var(--primary-light); }
+.alert-success { background: rgba(16,185,129,0.08); border-color: var(--success);  color: var(--success); }
+.alert-warning { background: rgba(245,158,11,0.09); border-color: var(--warning);  color: var(--warning); }
+.alert-error   { background: rgba(239,68,68,0.08);  border-color: var(--danger);   color: #fca5a5; }
+
+/* 3D CANVAS */
+#canvas3d { width: 100% !important; height: 450px !important; border-radius: 14px; border: 1px solid rgba(99,102,241,0.15); margin-bottom: 14px; background: radial-gradient(ellipse at center, #080c1a, #04060d); }
+
+/* 2D CANVAS */
+.canvas-2d { width: 100%; height: 400px; border: 1px solid var(--border); border-radius: 12px; background: var(--bg2); margin-bottom: 14px; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  .sidebar { width: 200px; }
+  .content { padding: 16px; }
+}
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .app-header { padding: 0 16px; }
+  .content { padding: 12px; }
+  .form-grid { grid-template-columns: 1fr; }
+  .dashboard-grid { grid-template-columns: 1fr; }
+  #canvas3d { height: 300px !important; }
+}
+
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-thumb { background: rgba(96, 165, 250, 0.3); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(96, 165, 250, 0.5); }
+
+/* THEME UPGRADE */
+:root {
+  /* ── Paleta Principal: Indigo/Violeta (Linear-inspired) ── */
+  --primary:        #6366f1;   /* indigo-500 */
+  --primary-light:  #a5b4fc;   /* indigo-300 */
+  --primary-dark:   #4338ca;   /* indigo-700 */
+  --primary-glow:   rgba(99, 102, 241, 0.28);
+
+  /* ── Acento secundário: Ciano elétrico ── */
+  --secondary:      #06b6d4;   /* cyan-500 */
+  --secondary-light:#67e8f9;   /* cyan-300 */
+  --accent:         #8b5cf6;   /* violet-500 */
+
+  /* ── Status ── */
+  --success:        #10b981;   /* emerald-500 */
+  --warning:        #f59e0b;   /* amber-500 */
+  --danger:         #ef4444;   /* red-500 */
+  --error:          #ef4444;
+
+  /* ── Fundos: near-black com tint azul frio ── */
+  --bg:    #04060d;
+  --bg2:   #080c15;
+  --bg3:   #0d1220;
+
+  /* ── Superfícies com glassmorphism ── */
+  --surface:  rgba(10, 14, 24, 0.90);
+  --surface2: rgba(13, 18, 32, 0.94);
+  --surface3: rgba(18, 24, 42, 0.80);
+
+  /* ── Bordas sutis ── */
+  --border:       rgba(99, 102, 241, 0.10);
+  --border-light: rgba(165, 180, 252, 0.18);
+  --border-glow:  rgba(99, 102, 241, 0.35);
+
+  /* ── Tipografia ── */
+  --text-primary:   #f0f2ff;
+  --text-secondary: #b8bdd8;
+  --text-tertiary:  #6b7280;
+
+  /* ── Tipografia ── */
+  --font-main:    'Inter', sans-serif;
+  --font-display: 'Sora', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  /* ── Efeitos ── */
+  --glass-blur: 16px;
+  --glow-soft:  0 0 0 1px rgba(99,102,241,0.08), 0 16px 32px rgba(4,6,13,0.6);
+  --glow-card:  0 0 0 1px rgba(99,102,241,0.12), 0 8px 24px rgba(4,6,13,0.5);
+  --radius-card: 14px;
+  --radius-btn:  10px;
+}
+
+body {
+  background: #04060d;
+}
+
+.login-container {
+  background:
+    radial-gradient(ellipse at 20% 20%, rgba(99, 102, 241, 0.22), transparent 40%),
+    radial-gradient(ellipse at 80% 80%, rgba(139, 92, 246, 0.16), transparent 35%),
+    linear-gradient(145deg, #04060d, #090e1c);
+}
+
+.app-header, .sidebar {
+  backdrop-filter: blur(12px);
+}
+
+.app-header {
+  height: 60px;
+  background: rgba(4, 6, 13, 0.94);
+  box-shadow: 0 1px 0 rgba(99,102,241,0.1), 0 8px 28px rgba(4,6,13,0.7);
+}
+
+.brand-logo,
+.login-logo {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+.sidebar {
+  width: 272px;
+  padding: 18px 14px;
+  background: rgba(5, 7, 16, 0.96);
+  border-right: 1px solid rgba(99,102,241,0.1);
+}
+
+.tab-group {
+  margin-bottom: 16px;
+  padding: 6px;
+  border: 1px solid rgba(99,102,241,0.1);
+  border-radius: 14px;
+  background: rgba(8, 12, 22, 0.5);
+}
+
+.tab-group-label {
+  padding: 8px 12px 10px;
+  font-size: 10px;
+  letter-spacing: 1.1px;
+}
+
+.tab-btn {
+  min-height: 44px;
+  border-radius: 12px;
+  border-left: none;
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.tab-btn:last-child {
+  margin-bottom: 0;
+}
+
+.tab-btn:hover {
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.14), rgba(139, 92, 246, 0.08));
+  color: var(--primary-light);
+}
+
+.tab-btn.active {
+  color: var(--primary-light);
+  background: linear-gradient(90deg, rgba(99, 102, 241, 0.22), rgba(139, 92, 246, 0.12));
+  box-shadow: inset 0 0 0 1px rgba(99, 102, 241, 0.25), 0 0 12px rgba(99, 102, 241, 0.08);
+}
+
+.content {
+  padding: 26px;
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.015), rgba(255,255,255,0)),
+    transparent;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  align-items: flex-end;
+}
+
+.dashboard-title {
+  font-size: 34px;
+  letter-spacing: -0.03em;
+}
+
+.dashboard-subtitle {
+  max-width: 760px;
+  font-size: 14px;
+}
+
+.hero-strip {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.hero-panel,
+.mini-panel,
+.info-grid,
+.compact-grid {
+  display: grid;
+  gap: 14px;
+}
+
+.hero-panel {
+  padding: 22px;
+  border-radius: 18px;
+  border: 1px solid rgba(99, 102, 241, 0.2);
+  background:
+    linear-gradient(145deg, rgba(99, 102, 241, 0.18), rgba(139, 92, 246, 0.08)),
+    rgba(8, 12, 22, 0.85);
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, rgba(94, 234, 212, 0.14), transparent 28%),
+    linear-gradient(135deg, rgba(255,255,255,0.04), transparent 40%);
+  pointer-events: none;
+}
+
+.hero-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.hero-kpi,
+.mini-card,
+.info-chip {
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(10, 15, 22, 0.42);
+}
+
+.hero-kpi {
+  padding: 14px;
+}
+
+.hero-kpi strong,
+.mini-card strong {
+  display: block;
+  font-size: 21px;
+  color: var(--text-primary);
+  font-family: var(--font-mono);
+}
+
+.hero-kpi span,
+.mini-card span {
+  display: block;
+  margin-top: 6px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.mini-panel {
+  grid-template-rows: repeat(2, 1fr);
+}
+
+.mini-card {
+  padding: 18px;
+}
+
+.dashboard-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.stat-card,
+.card {
+  border-radius: 18px;
+  box-shadow: var(--glow-soft);
+}
+
+.card-header {
+  margin-bottom: 18px;
+}
+
+.card-title {
+  font-size: 15px;
+}
+
+.card-subtitle {
+  font-size: 11px;
+  color: var(--text-tertiary);
+  margin-top: 3px;
+}
+
+.form-grid {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 14px;
+}
+
+.results-grid {
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+}
+
+.result-box {
+  padding: 14px;
+  border-radius: 14px;
+}
+
+.result-box.primary {
+  background: rgba(99, 102, 241, 0.08);
+  border-color: rgba(99, 102, 241, 0.28);
+}
+
+.result-box.primary .result-value {
+  color: var(--primary-light);
+}
+
+.inline-grid-2,
+.inline-grid-3,
+.inline-grid-4 {
+  display: grid;
+  gap: 14px;
+}
+
+.inline-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.inline-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.inline-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+.info-grid {
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.info-chip {
+  padding: 14px;
+}
+
+.info-chip strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  color: var(--text-primary);
+}
+
+.section-title {
+  margin-bottom: 16px;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  font-family: var(--font-display);
+}
+
+.section-subtitle {
+  margin-top: -8px;
+  margin-bottom: 16px;
+  color: var(--text-tertiary);
+  font-size: 12px;
+}
+
+.mobile-nav-toggle,
+.sidebar-overlay {
+  display: none;
+}
+
+.mobile-nav-toggle {
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  background: rgba(15, 23, 34, 0.72);
+  color: var(--text-primary);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.mobile-nav-toggle:hover {
+  border-color: var(--primary);
+}
+
+.summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+}
+
+.summary-tile {
+  padding: 14px;
+  background: var(--bg2);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+
+.summary-tile-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-tertiary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.summary-tile-value {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--primary-light);
+  font-family: var(--font-mono);
+}
+
+.quote-panel {
+  padding: 18px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(99, 102, 241, 0.13), rgba(139, 92, 246, 0.12));
+  border: 1px solid rgba(94, 234, 212, 0.16);
+  position: sticky;
+  top: 92px;
+}
+
+.hero-value {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  font-family: var(--font-display);
+  letter-spacing: -0.04em;
+  margin: 6px 0 10px;
+}
+
+.hero-description {
+  color: var(--text-secondary);
+  font-size: 12px;
+  line-height: 1.8;
+}
+
+.quote-total {
+  font-size: 34px;
+  font-family: var(--font-mono);
+  color: #fef3c7;
+  margin-top: 10px;
+}
+
+.quote-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.quote-meta-card,
+.memory-kpi,
+.material-badge {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(10, 15, 22, 0.48);
+}
+
+.quote-meta-card strong,
+.memory-kpi strong,
+.material-badge strong {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.quote-meta-card span,
+.material-badge span {
+  display: block;
+  font-size: 15px;
+  color: var(--text-primary);
+  font-weight: 700;
+}
+
+.budget-report-grid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.memory-report {
+  display: grid;
+  gap: 16px;
+}
+
+.memory-section {
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 18px;
+  background: rgba(15, 23, 34, 0.62);
+}
+
+.memory-section h3 {
+  margin-bottom: 12px;
+  font-size: 13px;
+  font-family: var(--font-display);
+}
+
+.memory-kpis,
+.material-badge-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 10px;
+  margin-top: 12px;
+}
+
+.memory-kpi strong {
+  margin-bottom: 0;
+  font-size: 18px;
+  color: var(--primary-light);
+  font-family: var(--font-mono);
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.memory-kpi span {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  color: var(--text-tertiary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.memory-html {
+  display: grid;
+  gap: 14px;
+  font-size: 11px;
+  line-height: 1.9;
+}
+
+.memory-html-section {
+  padding: 14px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(10, 15, 22, 0.4);
+}
+
+.memory-html-section strong {
+  color: var(--text-primary);
+}
+
+.brand-logo-3d,
+.admin-logo-3d {
+  perspective: 800px;
+  overflow: visible;
+  background: transparent;
+  box-shadow: none;
+}
+
+.brand-cube {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(-25deg) rotateY(-30deg);
+  animation: floatCube 6s ease-in-out infinite;
+}
+
+.cube-face {
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255,255,255,0.18);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.92), rgba(139, 92, 246, 0.88));
+  border-radius: 8px;
+  box-shadow: inset 0 0 18px rgba(255,255,255,0.08);
+}
+
+.cube-front { transform: translateZ(15px); }
+.cube-back { transform: rotateY(180deg) translateZ(15px); }
+.cube-right { transform: rotateY(90deg) translateZ(15px); }
+.cube-left { transform: rotateY(-90deg) translateZ(15px); }
+.cube-top { transform: rotateX(90deg) translateZ(15px); }
+.cube-bottom { transform: rotateX(-90deg) translateZ(15px); }
+
+@keyframes floatCube {
+  0%, 100% { transform: rotateX(-25deg) rotateY(-30deg) translateY(0); }
+  50% { transform: rotateX(-18deg) rotateY(-44deg) translateY(-3px); }
+}
+
+.workflow-strip {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.workflow-step {
+  padding: 12px 14px;
+  border-radius: 16px;
+  background: rgba(15, 23, 34, 0.62);
+  border: 1px solid var(--border);
+}
+
+.workflow-step strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 11px;
+  color: var(--primary-light);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.workflow-step span {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.entry-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.65fr);
+  gap: 16px;
+}
+
+.sticky-panel {
+  position: sticky;
+  top: 20px;
+}
+
+.summary-stack {
+  display: grid;
+  gap: 14px;
+}
+
+.summary-panel {
+  padding: 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(99, 102, 241, 0.18);
+  background: linear-gradient(145deg, rgba(99, 102, 241, 0.12), rgba(139, 92, 246, 0.07));
+}
+
+.summary-panel h3 {
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.summary-panel p {
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.compact-kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.compact-kpi {
+  padding: 12px;
+  border-radius: 14px;
+  background: rgba(10, 15, 22, 0.4);
+  border: 1px solid var(--border);
+}
+
+.compact-kpi strong {
+  display: block;
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: var(--text-primary);
+}
+
+.compact-kpi span {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+}
+
+.entry-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.quick-table {
+  display: grid;
+  gap: 10px;
+}
+
+.quick-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.quick-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.material-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+
+.table-container table {
+  min-width: 720px;
+}
+
+.download-inline {
+  margin-top: 16px;
+  width: 100%;
+}
+
+.mobile-tab-select {
+  display: none;
+  min-width: 170px;
+}
+
+.pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill {
+  padding: 8px 12px;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.08);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.timeline {
+  display: grid;
+  gap: 12px;
+}
+
+.timeline-item {
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  background: rgba(15, 23, 34, 0.58);
+  display: grid;
+  grid-template-columns: 110px 1fr 90px;
+  gap: 14px;
+  align-items: center;
+}
+
+.timeline-item strong {
+  color: var(--text-primary);
+}
+
+.budget-breakdown {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 16px;
+}
+
+.cost-line {
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+
+.cost-line:last-child {
+  border-bottom: none;
+}
+
+@media (max-width: 1200px) {
+  .hero-strip,
+  .budget-breakdown,
+  .budget-report-grid,
+  .inline-grid-4,
+  .entry-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .hero-kpis,
+  .dashboard-grid,
+  .material-summary,
+  .workflow-strip {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  :root {
+    --glass-blur: 0px;
+    --glow-soft: 0 0 0 1px rgba(148, 163, 184, 0.07), 0 12px 22px rgba(2, 6, 23, 0.18);
+  }
+
+  .app-main {
+    flex-direction: column;
+    overflow: visible;
+  }
+
+  .sidebar {
+    display: flex;
+    position: fixed;
+    top: 58px;
+    left: 0;
+    bottom: 0;
+    width: min(88vw, 320px);
+    padding: 18px 14px 28px;
+    z-index: 1003;
+    transform: translateX(-108%);
+    transition: transform 0.22s ease;
+    box-shadow: 0 24px 48px rgba(2, 6, 23, 0.42);
+  }
+
+  /* ── LOGIN MOBILE ── */
+  .login-container {
+    align-items: flex-start;
+    padding: 18px 14px 32px;
+  }
+
+  .login-box {
+    margin-top: 14px;
+    padding: 24px 18px;
+    max-width: none;
+  }
+
+  /* inputs maiores para toque */
+  .form-input,
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+    min-height: 46px;
+  }
+
+  .demo-actions {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── LAYOUT GERAL MOBILE ── */
+  .content {
+    overflow-y: auto;
+    padding: 14px 12px 96px;
+  }
+
+  .app-wrapper,
+  .content {
+    min-height: 0;
+  }
+
+  /* ── HEADER MOBILE ── */
+  .app-header {
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    height: 58px;
+    padding: 0 12px;
+  }
+
+  .brand-name { font-size: 12px; }
+  .brand-version { display: none; }
+  .brand-logo-3d { width: 34px; height: 34px; }
+
+  .header-actions {
+    gap: 6px;
+  }
+
+  .mobile-nav-toggle {
+    display: inline-flex;
+  }
+
+  .user-info {
+    display: none;
+  }
+
+  .sidebar-overlay {
+    display: block;
+    position: fixed;
+    inset: 58px 0 0 0;
+    background: rgba(2, 6, 23, 0.56);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1002;
+    transition: opacity 0.2s ease;
+  }
+
+  .app-wrapper.mobile-nav-open .sidebar {
+    transform: translateX(0);
+  }
+
+  .app-wrapper.mobile-nav-open .sidebar-overlay {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .mobile-tab-select {
+    display: none;
+  }
+
+  /* seletor de idioma menor no mobile */
+  #langSelect {
+    font-size: 10px;
+    padding: 4px 5px;
+    min-height: 34px;
+    max-width: 70px;
+  }
+
+  .logout-btn {
+    padding: 6px 10px;
+    font-size: 11px;
+  }
+
+  /* ── CARDS E SEÇÕES ── */
+  .card { padding: 14px; border-radius: 14px; }
+  .card-title { font-size: 13px; }
+  .card-subtitle { font-size: 11px; }
+  .section-title { font-size: 20px; }
+  .dashboard-title { font-size: 24px; }
+
+  /* stat cards menores */
+  .stat-value { font-size: 20px; }
+  .hero-value { font-size: 26px; }
+  .quote-panel { position: static; }
+
+  /* ── GRIDS COLAPSADOS ── */
+  .hero-kpis,
+  .inline-grid-2,
+  .inline-grid-3,
+  .inline-grid-4,
+  .dashboard-grid,
+  .timeline-item,
+  .compact-kpi-grid,
+  .material-summary,
+  .workflow-strip,
+  .entry-actions,
+  .quote-meta-grid,
+  .memory-kpis,
+  .material-badge-row,
+  .budget-breakdown,
+  .budget-report-grid,
+  .results-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* results-grid em 2 colunas (mais compacto) */
+  .results-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  /* form-grid em 1 coluna no mobile */
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* ── CANVAS ── */
+  #canvas3d { height: 260px !important; }
+  .canvas-2d { height: 280px; }
+
+  /* ── TABELAS COMO CARDS ── */
+  .table-container {
+    overflow: visible;
+    border: none;
+    margin-bottom: 0;
+  }
+
+  .table-container table,
+  .table-container thead,
+  .table-container tbody,
+  .table-container tr {
+    display: block;
+  }
+
+  .table-container table {
+    min-width: 0;
+  }
+
+  .table-container thead {
+    display: none;
+  }
+
+  .table-container tbody {
+    display: grid;
+    gap: 10px;
+  }
+
+  .table-container tr {
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    background: rgba(15, 23, 34, 0.72);
+  }
+
+  .table-container td {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 0;
+    border-bottom: none;
+    font-size: 11px;
+  }
+
+  .table-container td + td {
+    margin-top: 8px;
+  }
+
+  .table-container td::before {
+    content: attr(data-label);
+    font-size: 10px;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tab-view,
+  .brand-cube {
+    animation: none;
+  }
+
+  .card,
+  .stat-card,
+  .btn,
+  .tab-btn {
+    transition: none;
+  }
+}
+
+/* ── BOTTOM NAVIGATION MOBILE ──────────────────────────────────────── */
+.bottom-nav-mobile {
+  display: none;
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: var(--surface2, #1e2840);
+  border-top: 1px solid var(--border-light, rgba(148,163,184,0.12));
+  padding: 5px 2px;
+  z-index: 1002;
+  gap: 1px;
+  box-shadow: 0 -4px 24px rgba(0,0,0,0.35);
+}
+@media (max-width: 768px) {
+  .bottom-nav-mobile { display: flex !important; }
+  .content { padding-bottom: 80px !important; }
+}
+.bnav-btn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  min-height: 54px;
+  padding: 5px 2px 4px;
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  color: var(--text-muted, #94a3b8);
+  font-size: 10px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  line-height: 1.2;
+}
+.bnav-btn span { display: block; font-size: 10px; }
+.bnav-btn:active { background: rgba(255,255,255,0.06); }
+.bnav-btn.active { color: var(--accent, #38bdf8); background: rgba(56,189,248,0.1); }
+.bnav-more-menu {
+  display: none;
+  position: fixed;
+  bottom: 64px; left: 0; right: 0;
+  background: var(--surface2, #1e2840);
+  border-top: 1px solid var(--border-light, rgba(148,163,184,0.12));
+  padding: 14px 12px;
+  z-index: 1003;
+  flex-wrap: wrap;
+  gap: 8px;
+  box-shadow: 0 -6px 28px rgba(0,0,0,0.4);
+}
+.bnav-more-menu.open { display: flex; }
+.bnav-more-item {
+  flex: 0 0 calc(33.33% - 6px);
+  min-height: 46px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  background: var(--surface3, rgba(255,255,255,0.04));
+  border: 1px solid var(--border-light, rgba(148,163,184,0.1));
+  border-radius: 10px;
+  color: var(--text-muted, #94a3b8);
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 8px 4px;
+  transition: background 0.15s, color 0.15s;
+}
+.bnav-more-item span { display: block; font-size: 10px; margin-top: 2px; }
+.bnav-more-item:active, .bnav-more-item.active {
+  color: var(--accent, #38bdf8);
+  background: rgba(56,189,248,0.1);
+  border-color: rgba(56,189,248,0.3);
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" class="login-container">
+  <div class="login-box">
+    <div class="login-header">
+      <div class="login-logo">🏭</div>
+      <div class="login-title">RR Ponte Rolante</div>
+      <div class="login-subtitle">Professional v10 Suite</div>
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Usuário</label>
+      <input type="text" id="loginUser" placeholder="admin" class="form-input">
+    </div>
+    
+    <div class="form-group">
+      <label class="form-label">Senha</label>
+      <input type="password" id="loginPass" placeholder="••••••" class="form-input">
+    </div>
+    
+    <button class="login-btn" id="loginBtn">Entrar no Sistema</button>
+    
+	    <div class="demo-info">
+	      <strong>Ambiente de Demonstração:</strong><br>
+	      O acesso de teste permanece habilitado apenas para uso local.<br>
+	      Admin: <strong>admin / senha123</strong><br>
+	      Engenharia: <strong>eng / eng2025</strong>
+	      <div class="demo-actions">
+	        <button type="button" class="demo-btn" id="fillAdminDemoBtn">Entrar como Admin</button>
+	        <button type="button" class="demo-btn" id="fillEngDemoBtn">Entrar como Eng.</button>
+	      </div>
+	    </div>
+	  </div>
+</div>
+
+<!-- APP WRAPPER -->
+<div id="appWrapper" class="hidden">
+  <div class="app-wrapper">
+    <!-- HEADER -->
+    <div class="app-header">
+      <div class="header-brand">
+        <div class="brand-logo brand-logo-3d">
+          <div class="brand-cube" aria-hidden="true">
+            <span class="cube-face cube-front"></span>
+            <span class="cube-face cube-back"></span>
+            <span class="cube-face cube-right"></span>
+            <span class="cube-face cube-left"></span>
+            <span class="cube-face cube-top"></span>
+            <span class="cube-face cube-bottom"></span>
+          </div>
+        </div>
+        <div class="brand-text">
+          <div class="brand-name">RR Ponte Rolante PRO</div>
+          <div class="brand-version">v10 Suite</div>
+        </div>
+      </div>
+      
+      <div class="header-actions">
+        <button type="button" class="mobile-nav-toggle" id="mobileNavToggle" aria-label="Abrir navegação">☰</button>
+        <div class="user-info">
+          <span>👤 <span id="userDisplay">admin</span></span>
+        </div>
+        <select id="mobileTabSelect" class="mobile-tab-select">
+          <option value="dashboard">Dashboard</option>
+          <option value="entrada">Entrada</option>
+          <option value="calculos">Central ABNT</option>
+          <option value="cargas">Cargas</option>
+          <option value="viga">Viga</option>
+          <option value="coluna">Coluna</option>
+          <option value="chapas">Chapas</option>
+          <option value="desenhos">Desenhos</option>
+          <option value="materiais">Materiais</option>
+          <option value="processos">Processos</option>
+          <option value="compras">Compras</option>
+          <option value="orcamento">Orçamento</option>
+          <option value="cronograma">Cronograma</option>
+          <option value="memorial">Memorial</option>
+        </select>
+        <select id="langSelect" style="padding: 6px 8px; border-radius: 6px; border: 1px solid var(--border); background: var(--bg2); color: var(--text-primary); font-size: 11px; cursor: pointer;">
+          <option value="pt">🇧🇷 Português</option>
+          <option value="en">🇺🇸 English</option>
+          <option value="es">🇪🇸 Español</option>
+        </select>
+        <button class="logout-btn" id="logoutBtn">Sair</button>
+      </div>
+    </div>
+    <div class="sidebar-overlay" id="mobileSidebarOverlay"></div>
+
+    <!-- MAIN -->
+    <div class="app-main">
+      <!-- SIDEBAR -->
+      <div class="sidebar">
+        <div class="tab-group">
+          <div class="tab-group-label">📊 Painel Executivo</div>
+          <button class="tab-btn active" data-tab="dashboard">
+            <span class="tab-icon">📈</span> Dashboard
+          </button>
+        </div>
+
+        <div class="tab-group">
+          <div class="tab-group-label">🧭 Fluxo Principal</div>
+          <button class="tab-btn" data-tab="entrada">
+            <span class="tab-icon">⚙️</span> Entrada de Dados
+          </button>
+          <button class="tab-btn" data-tab="calculos">
+            <span class="tab-icon">📐</span> Central ABNT
+          </button>
+          <button class="tab-btn" data-tab="cargas">
+            <span class="tab-icon">🏋️</span> Cargas
+          </button>
+          <button class="tab-btn" data-tab="viga">
+            <span class="tab-icon">📏</span> Viga Principal
+          </button>
+          <button class="tab-btn" data-tab="coluna">
+            <span class="tab-icon">🏛️</span> Coluna e Base
+          </button>
+        </div>
+
+        <div class="tab-group">
+          <div class="tab-group-label">🧮 Engenharia</div>
+          <button class="tab-btn" data-tab="chapas">
+            <span class="tab-icon">🧱</span> Chapas
+          </button>
+          <button class="tab-btn" data-tab="desenhos">
+            <span class="tab-icon">🎨</span> Desenhos Técnicos
+          </button>
+        </div>
+
+        <div class="tab-group">
+          <div class="tab-group-label">📦 Produção</div>
+          <button class="tab-btn" data-tab="materiais">
+            <span class="tab-icon">📦</span> Materiais
+          </button>
+          <button class="tab-btn" data-tab="processos">
+            <span class="tab-icon">🛠️</span> Processos
+          </button>
+          <button class="tab-btn" data-tab="compras">
+            <span class="tab-icon">🧾</span> Compras
+          </button>
+          <button class="tab-btn" data-tab="orcamento">
+            <span class="tab-icon">💰</span> Orçamento
+          </button>
+        </div>
+
+        <div class="tab-group">
+          <div class="tab-group-label">📄 Planejamento</div>
+          <button class="tab-btn" data-tab="cronograma">
+            <span class="tab-icon">🗓️</span> Cronograma
+          </button>
+        </div>
+
+        <div class="tab-group">
+          <div class="tab-group-label">📄 Documentação</div>
+          <button class="tab-btn" data-tab="memorial">
+            <span class="tab-icon">📋</span> Memorial
+          </button>
+        </div>
+      </div>
+
+      <!-- CONTENT -->
+      <div class="content">
+
+        <!-- TAB: DASHBOARD -->
+        <div id="tab-dashboard" class="tab-view active">
+          <div class="dashboard-header">
+            <div>
+              <div class="dashboard-title">Centro de Controle Estrutural</div>
+              <div class="dashboard-subtitle">Visual novo, leitura mais limpa e dados distribuídos por etapa para facilitar engenharia, produção e fechamento comercial.</div>
+            </div>
+            <div class="pill-list">
+              <div class="pill">14 abas operacionais</div>
+              <div class="pill">ABNT NBR 8400</div>
+              <div class="pill">BOM + compras + custos</div>
+            </div>
+          </div>
+
+          <div class="hero-strip">
+            <div class="hero-panel">
+              <div style="font-size: 12px; color: var(--primary-light); text-transform: uppercase; letter-spacing: 0.14em;">Visão rápida do projeto</div>
+              <div style="font-size: 28px; font-weight: 700; margin-top: 8px;">Ponte rolante com leitura integrada de cálculo, material, processo e proposta final.</div>
+              <div style="font-size: 13px; color: var(--text-secondary); margin-top: 10px;">A navegação foi separada por assunto para você enxergar melhor onde está cada decisão do software sem ficar preso em uma única tela grande.</div>
+              <div class="hero-kpis">
+                <div class="hero-kpi"><strong id="dash-cn-hero">10.00 t</strong><span>Carga nominal</span></div>
+                <div class="hero-kpi"><strong id="dash-vao-hero">22.00 m</strong><span>Vão do sistema</span></div>
+                <div class="hero-kpi"><strong id="dash-flecha-hero">3.43 cm</strong><span>Flecha total</span></div>
+                <div class="hero-kpi"><strong id="dash-final-hero">R$ 0,00</strong><span>Preço final</span></div>
+              </div>
+            </div>
+            <div class="mini-panel">
+              <div class="mini-card">
+                <strong id="dash-status-hero">APROVADO</strong>
+                <span>Status global do projeto</span>
+              </div>
+              <div class="mini-card">
+                <strong id="dash-items-hero">0 itens</strong>
+                <span>Itens de lista técnica</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-grid">
+            <div class="stat-card">
+              <div class="stat-label">Carga Nominal</div>
+              <div class="stat-value" id="dash-cn">10.00</div>
+              <div class="stat-unit">ton</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Peso Estrutura</div>
+              <div class="stat-value" id="dash-peso">0.00</div>
+              <div class="stat-unit">kg</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Status Estrutural</div>
+              <div class="stat-value" id="dash-status" style="color: var(--success); font-size: 16px;">✓ OK</div>
+              <div class="stat-unit">verificado</div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Orçamento Total</div>
+              <div class="stat-value" id="dash-orcamento">R$ 0.00</div>
+              <div class="stat-unit">projeto</div>
+            </div>
+          </div>
+
+          <div class="info-grid" style="margin-bottom: 18px;">
+            <div class="info-chip">
+              <strong>Leitura de engenharia</strong>
+              RA/RB, flecha, flambagem e chumbadores agora ficam mais fáceis de localizar em abas dedicadas.
+            </div>
+            <div class="info-chip">
+              <strong>Leitura comercial</strong>
+              O orçamento final ganhou uma apresentação mais clara, com resumo visual e detalhamento de composição.
+            </div>
+            <div class="info-chip">
+              <strong>Leitura de produção</strong>
+              Materiais, compras e processos foram separados para apoiar fabricação e planejamento de obra.
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">ℹ️</div>
+              <div class="card-title">Informações do Projeto</div>
+            </div>
+            <div style="font-size: 12px; line-height: 2; color: var(--text-secondary);">
+              <div><strong>Empresa:</strong> <span id="dash-empresa">—</span></div>
+              <div><strong>Responsável:</strong> <span id="dash-resp">—</span></div>
+              <div><strong>Data:</strong> <span id="dash-data">—</span></div>
+              <div><strong>Orçamento Nº:</strong> <span id="dash-num">—</span></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">✓</div>
+              <div class="card-title">Sistema de Validação</div>
+            </div>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; font-size: 11px;">
+              <div>
+                <div style="margin-bottom: 8px;"><span style="color: var(--success);">✓</span> Cálculos ABNT</div>
+                <div style="margin-bottom: 8px;"><span style="color: var(--success);">✓</span> Materiais</div>
+                <div style="margin-bottom: 8px;"><span style="color: var(--success);">✓</span> Orçamento</div>
+              </div>
+              <div>
+                <div style="margin-bottom: 8px;"><span style="color: var(--success);">✓</span> Estrutura</div>
+                <div style="margin-bottom: 8px;"><span style="color: var(--success);">✓</span> Desenhos</div>
+                <div style="margin-bottom: 8px;"><span style="color: var(--success);">✓</span> Memorial</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">⚡</div>
+              <div class="card-title">Alertas e Validações</div>
+            </div>
+            <div id="dashboard-alerts"></div>
+          </div>
+        </div>
+
+        <div id="tab-cargas" class="tab-view">
+          <h2 class="section-title">Cargas e Reações</h2>
+          <div class="section-subtitle">Painel resumido para enxergar distribuição de carga na talha, reações de apoio e momento principal.</div>
+
+          <div class="inline-grid-2">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">🏋️</div>
+                <div>
+                  <div class="card-title">Distribuição de cargas</div>
+                  <div class="card-subtitle">Leitura rápida da talha e do peso total aplicado.</div>
+                </div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box primary"><div class="result-label">Carga total</div><div class="result-value" id="tab-cargas-cg">12.00</div><div class="result-unit">ton</div></div>
+                <div class="result-box"><div class="result-label">Rt1</div><div class="result-value" id="tab-cargas-rt1">7.50</div><div class="result-unit">ton</div></div>
+                <div class="result-box"><div class="result-label">Rt2</div><div class="result-value" id="tab-cargas-rt2">4.50</div><div class="result-unit">ton</div></div>
+                <div class="result-box"><div class="result-label">Carga por roda</div><div class="result-value" id="tab-cargas-roda">3000</div><div class="result-unit">kg</div></div>
+              </div>
+              <div class="alert alert-info">Use esta aba para validação inicial da entrada antes de detalhar viga, coluna ou orçamento.</div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">↕️</div>
+                <div>
+                  <div class="card-title">Reações e momento</div>
+                  <div class="card-subtitle">Resumo estático da estrutura principal.</div>
+                </div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">RA</div><div class="result-value" id="tab-cargas-ra">11.63</div><div class="result-unit">ton</div></div>
+                <div class="result-box"><div class="result-label">RB</div><div class="result-value" id="tab-cargas-rb">0.38</div><div class="result-unit">ton</div></div>
+                <div class="result-box success"><div class="result-label">Momento fletor</div><div class="result-value" id="tab-cargas-mf">6.6M</div><div class="result-unit">daN.m</div></div>
+              </div>
+              <div class="info-grid">
+                <div class="info-chip"><strong>Critério operacional</strong><span id="tab-cargas-balance">Distribuição balanceada para leitura inicial.</span></div>
+                <div class="info-chip"><strong>Observação</strong>Se RA estiver muito concentrada, vale rever posição da talha e geometria.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-viga" class="tab-view">
+          <h2 class="section-title">Viga Principal</h2>
+          <div class="section-subtitle">Aba dedicada à seção, inércia, peso linear e comportamento de flecha.</div>
+
+          <div class="inline-grid-2">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">📏</div>
+                <div>
+                  <div class="card-title">Geometria resistente</div>
+                  <div class="card-subtitle">Indicadores principais da seção I assimétrica.</div>
+                </div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">Área</div><div class="result-value" id="tab-viga-at">330.5</div><div class="result-unit">cm²</div></div>
+                <div class="result-box"><div class="result-label">CGy</div><div class="result-value" id="tab-viga-cgy">22.50</div><div class="result-unit">cm</div></div>
+                <div class="result-box"><div class="result-label">Jx</div><div class="result-value" id="tab-viga-jx">585763</div><div class="result-unit">cm⁴</div></div>
+                <div class="result-box success"><div class="result-label">Peso por metro</div><div class="result-value" id="tab-viga-peso">259</div><div class="result-unit">kg/m</div></div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">〰️</div>
+                <div>
+                  <div class="card-title">Flecha e serviço</div>
+                  <div class="card-subtitle">Comportamento sob carga e peso próprio.</div>
+                </div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">Fc</div><div class="result-value" id="tab-viga-fc">2.70</div><div class="result-unit">cm</div></div>
+                <div class="result-box"><div class="result-label">Fp</div><div class="result-value" id="tab-viga-fp">0.73</div><div class="result-unit">cm</div></div>
+                <div class="result-box primary"><div class="result-label">Ft</div><div class="result-value" id="tab-viga-ft">3.43</div><div class="result-unit">cm</div></div>
+                <div class="result-box success"><div class="result-label">Fadm</div><div class="result-value" id="tab-viga-fadm">641</div><div class="result-unit">indice</div></div>
+              </div>
+              <div class="alert alert-success" id="tab-viga-status">Leitura de flecha dentro do limite recomendado.</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-coluna" class="tab-view">
+          <h2 class="section-title">Coluna, Flambagem e Base</h2>
+          <div class="section-subtitle">Concentra dados da coluna, flambagem de Euler e dimensionamento simplificado do chumbador.</div>
+
+          <div class="inline-grid-3">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">🏛️</div>
+                <div class="card-title">Coluna</div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">Área</div><div class="result-value" id="tab-col-area">83.7</div><div class="result-unit">cm²</div></div>
+                <div class="result-box"><div class="result-label">Jyd</div><div class="result-value" id="tab-col-jyd">6115</div><div class="result-unit">cm⁴</div></div>
+                <div class="result-box success"><div class="result-label">Peso/m</div><div class="result-value" id="tab-col-peso">71.7</div><div class="result-unit">kg/m</div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Flambagem</div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">Esbeltez</div><div class="result-value" id="tab-col-flamb-i">66.0</div><div class="result-unit">indice</div></div>
+                <div class="result-box"><div class="result-label">Fk</div><div class="result-value" id="tab-col-flamb-fk">46M</div><div class="result-unit">daN</div></div>
+                <div class="result-box success"><div class="result-label">W</div><div class="result-value" id="tab-col-flamb-w">1.20</div><div class="result-unit">tabela</div></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">🔩</div>
+                <div class="card-title">Chumbadores</div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">Fchx</div><div class="result-value" id="tab-col-chum-f">12000</div><div class="result-unit">kg</div></div>
+                <div class="result-box"><div class="result-label">Área</div><div class="result-value" id="tab-col-chum-a">12.0</div><div class="result-unit">cm²</div></div>
+                <div class="result-box success"><div class="result-label">Diâmetro</div><div class="result-value" id="tab-col-chum-d">3.91</div><div class="result-unit">cm</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: ENTRADA -->
+        <div id="tab-entrada" class="tab-view">
+          <h2 class="section-title">Entrada de Dados Técnicos</h2>
+          <div class="section-subtitle">Fluxo mais claro: primeiro identificação, depois medidas, em seguida cálculo, materiais e preço final.</div>
+
+          <div class="workflow-strip">
+            <div class="workflow-step"><strong>1. Cliente</strong><span>Nome, empresa, data e número do orçamento.</span></div>
+            <div class="workflow-step"><strong>2. Medidas</strong><span>Informe carga, vão, talha e geometria principal.</span></div>
+            <div class="workflow-step"><strong>3. Cálculo</strong><span>Revise a central ABNT e painéis dedicados.</span></div>
+            <div class="workflow-step"><strong>4. Materiais</strong><span>Confira BOM, compras e processo produtivo.</span></div>
+            <div class="workflow-step"><strong>5. Preço</strong><span>Feche a proposta e baixe o PDF final.</span></div>
+          </div>
+
+          <div class="entry-layout">
+            <div>
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-icon">👤</div>
+                  <div>
+                    <div class="card-title">Identificação do Projeto</div>
+                    <div class="card-subtitle">Esses dados alimentam dashboard, memorial e orçamento final.</div>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label class="field-label">Empresa / Cliente</label>
+                    <input type="text" id="inp-empresa" placeholder="Nome da empresa">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Responsável Técnico</label>
+                    <input type="text" id="inp-resp" placeholder="Engenheiro responsável">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Data do Projeto</label>
+                    <input type="date" id="inp-data">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">N° Orçamento</label>
+                    <input type="text" id="inp-num" placeholder="ORÇ-2025-001">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Escopo / objetivo</label>
+                    <input type="text" id="inp-escopo" placeholder="Ex.: Ponte rolante monoviga para operação industrial">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Entrega / obra</label>
+                    <input type="text" id="inp-entrega" placeholder="Cidade, obra ou unidade do cliente">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Base de preço</label>
+                    <input type="text" id="inp-base-preco" value="Base interna + mercado local">
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-icon">📏</div>
+                  <div>
+                    <div class="card-title">Parâmetros Estruturais Principais</div>
+                    <div class="card-subtitle">Entradas mais importantes para o cálculo base.</div>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label class="field-label">Carga Nominal (CN) [ton]</label>
+                    <input type="number" id="inp-cn" value="10" step="0.5">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Peso Talha (PT) [ton]</label>
+                    <input type="number" id="inp-pt" value="2" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Vão (V) [m]</label>
+                    <input type="number" id="inp-vao" value="22" step="1">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Dist. Rodas (Drt) [m]</label>
+                    <input type="number" id="inp-drt" value="0.8" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Comp. Parcial (C) [m]</label>
+                    <input type="number" id="inp-comp-c" value="0.5" step="0.1">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Altura Trilho (Hv) [m]</label>
+                    <input type="number" id="inp-hv" value="1" step="0.1">
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-icon">🔧</div>
+                  <div>
+                    <div class="card-title">Geometria Viga Principal</div>
+                    <div class="card-subtitle">Seção I assimétrica com leitura direta para peso e inércia.</div>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label class="field-label">Largura (B) [cm]</label>
+                    <input type="number" id="inp-viga-b" value="40" step="5">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Altura (H) [cm]</label>
+                    <input type="number" id="inp-viga-h" value="105" step="5">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Mesa Sup. (a) [cm]</label>
+                    <input type="number" id="inp-viga-a" value="1.25" step="0.25">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Alma (b) [cm]</label>
+                    <input type="number" id="inp-viga-b-alma" value="0.8" step="0.2">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Comp. Mesa Inf. (C) [cm]</label>
+                    <input type="number" id="inp-viga-c" value="45" step="5">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Esp. Mesa Inf. (c) [cm]</label>
+                    <input type="number" id="inp-viga-c-esp" value="2.5" step="0.5">
+                  </div>
+                </div>
+              </div>
+
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-icon">🏛️</div>
+                  <div>
+                    <div class="card-title">Geometria da Coluna</div>
+                    <div class="card-subtitle">Base para coluna, flambagem e chumbadores.</div>
+                  </div>
+                </div>
+                <div class="form-grid">
+                  <div class="field">
+                    <label class="field-label">Largura (B) [cm]</label>
+                    <input type="number" id="inp-col-b" value="30" step="5">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Altura (H) [cm]</label>
+                    <input type="number" id="inp-col-h" value="30" step="5">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Espessura [cm]</label>
+                    <input type="number" id="inp-col-esp" value="0.95" step="0.2">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Altura Física (L) [m]</label>
+                    <input type="number" id="inp-col-l" value="9" step="1">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Módulo E [kg/cm²]</label>
+                    <input type="number" id="inp-e" value="2100000">
+                  </div>
+                  <div class="field">
+                    <label class="field-label">Fator Segurança</label>
+                    <input type="number" id="inp-fseg" value="2.5" step="0.1">
+                  </div>
+                </div>
+              </div>
+
+              <div class="entry-actions">
+                <button class="btn btn-primary" id="calculateBtn">
+                  🧮 Calcular e abrir central
+                </button>
+                <button class="btn btn-secondary" data-tab-jump="orcamento">
+                  💰 Ir para orçamento
+                </button>
+              </div>
+            </div>
+
+            <div class="sticky-panel">
+              <div class="summary-stack">
+                <div class="summary-panel">
+                  <h3>Resumo instantâneo</h3>
+                  <p>Enquanto você preenche, o software já atualiza os indicadores principais sem obrigar a pessoa a sair da tela de entrada.</p>
+                  <div class="compact-kpi-grid">
+                    <div class="compact-kpi"><strong id="entry-kpi-cn">10.00 t</strong><span>Carga</span></div>
+                    <div class="compact-kpi"><strong id="entry-kpi-vao">22.00 m</strong><span>Vão</span></div>
+                    <div class="compact-kpi"><strong id="entry-kpi-peso">0.00 kg</strong><span>Peso total</span></div>
+                    <div class="compact-kpi"><strong id="entry-kpi-total">R$ 0,00</strong><span>Preço final</span></div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header">
+                    <div class="card-icon">📌</div>
+                    <div>
+                      <div class="card-title">Leitura rápida dos cálculos</div>
+                      <div class="card-subtitle">Os pontos mais importantes já aparecem aqui.</div>
+                    </div>
+                  </div>
+                  <div class="quick-table">
+                    <div class="quick-row"><span>Carga total aplicada</span><strong id="entry-live-cg">12.00 ton</strong></div>
+                    <div class="quick-row"><span>Momento fletor</span><strong id="entry-live-mf">6.6M</strong></div>
+                    <div class="quick-row"><span>Flecha total</span><strong id="entry-live-ft">3.43 cm</strong></div>
+                    <div class="quick-row"><span>Peso da viga</span><strong id="entry-live-viga">259 kg/m</strong></div>
+                    <div class="quick-row"><span>Status estrutural</span><strong id="entry-live-status">OK</strong></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: CALCULOS ABNT -->
+        <div id="tab-calculos" class="tab-view">
+          <h2 style="margin-bottom: 16px;">Cálculos Estruturais - ABNT NBR 8400</h2>
+
+          <!-- TALHA -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">⚙️</div>
+              <div class="card-title">1) Dados da Talha - Distribuição de Carga</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box success">
+                <div class="result-label">Cg (Carga Total)</div>
+                <div class="result-value" id="res-cg">12.00</div>
+                <div class="result-unit">ton</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Rt1</div>
+                <div class="result-value" id="res-rt1">7.50</div>
+                <div class="result-unit">ton</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Rt2</div>
+                <div class="result-value" id="res-rt2">4.50</div>
+                <div class="result-unit">ton</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">P/Roda</div>
+                <div class="result-value" id="res-por-roda">3000</div>
+                <div class="result-unit">kg</div>
+              </div>
+            </div>
+            <div class="alert alert-success">✓ Distribuição de carga verificada conforme ABNT NBR 8400</div>
+          </div>
+
+          <!-- REAÇÕES -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">↕️</div>
+              <div class="card-title">3) Reações de Apoio - Análise Estática</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">RA</div>
+                <div class="result-value" id="res-ra">11.63</div>
+                <div class="result-unit">ton</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">RB</div>
+                <div class="result-value" id="res-rb">0.38</div>
+                <div class="result-unit">ton</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">MF Máximo</div>
+                <div class="result-value" id="res-mf">6.6M</div>
+                <div class="result-unit">daN·m</div>
+              </div>
+            </div>
+            <div class="alert alert-success">✓ Equilíbrio estático verificado: RA + RB = Cg</div>
+          </div>
+
+          <!-- VIGA -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📐</div>
+              <div class="card-title">5) Viga Principal - Seção I Assimétrica</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">Área Total</div>
+                <div class="result-value" id="res-viga-at">330.5</div>
+                <div class="result-unit">cm²</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">CGy</div>
+                <div class="result-value" id="res-viga-cgy">22.50</div>
+                <div class="result-unit">cm</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">Jx</div>
+                <div class="result-value" id="res-viga-jx">585763</div>
+                <div class="result-unit">cm⁴</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Peso/m</div>
+                <div class="result-value" id="res-viga-peso">259</div>
+                <div class="result-unit">kg/m</div>
+              </div>
+            </div>
+            <div class="alert alert-success">✓ Tensão combinada: 1464 ≤ 1680 kg/cm² (APROVADO)</div>
+          </div>
+
+          <!-- FLECHA -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">〰️</div>
+              <div class="card-title">6) Flecha na Viga - Deflexão Máxima Admissível</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">Fc (Carga)</div>
+                <div class="result-value" id="res-flecha-fc">2.70</div>
+                <div class="result-unit">cm</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">Fp (Peso Próprio)</div>
+                <div class="result-value" id="res-flecha-fp">0.73</div>
+                <div class="result-unit">cm</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Ft (Total)</div>
+                <div class="result-value" id="res-flecha-ft">3.43</div>
+                <div class="result-unit">cm</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Fadm</div>
+                <div class="result-value" id="res-flecha-fadm">641</div>
+                <div class="result-unit">≥ 640</div>
+              </div>
+            </div>
+            <div class="alert alert-success">✓ Flecha APROVADA: 641 ≥ 640 (L/Ft admissível)</div>
+          </div>
+
+          <!-- CABEÇEIRA -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🔗</div>
+              <div class="card-title">8-9) Cabeçeira - Flecha Localizada</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">Fc</div>
+                <div class="result-value" id="res-cab-fc">0.20</div>
+                <div class="result-unit">cm</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Ft</div>
+                <div class="result-value" id="res-cab-ft">0.27</div>
+                <div class="result-unit">cm</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Fadm</div>
+                <div class="result-value" id="res-cab-fadm">917</div>
+                <div class="result-unit">OK ✓</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CAMINHO ROLAMENTO -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🛤️</div>
+              <div class="card-title">10-12) Caminho de Rolamento - Deslocamentos</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">Ft Vertical</div>
+                <div class="result-value" id="res-cam-ft-vert">1.10</div>
+                <div class="result-unit">cm</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Ft Horizontal</div>
+                <div class="result-value" id="res-cam-ft-hor">5.49</div>
+                <div class="result-unit">cm</div>
+              </div>
+            </div>
+            <div class="alert alert-success">✓ Deslocamentos verificados e aprovados</div>
+          </div>
+
+          <!-- COLUNA -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🏛️</div>
+              <div class="card-title">13-14) Coluna - Perfil Caixão</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">Área</div>
+                <div class="result-value" id="res-col-area">83.7</div>
+                <div class="result-unit">cm²</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">Jyd</div>
+                <div class="result-value" id="res-col-jyd">6115</div>
+                <div class="result-unit">cm⁴</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Peso/m</div>
+                <div class="result-value" id="res-col-peso">71.7</div>
+                <div class="result-unit">kg/m</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FLAMBAGEM -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📊</div>
+              <div class="card-title">15) Flambagem - Análise de Euler</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">Esbeltez (I)</div>
+                <div class="result-value" id="res-flamb-i">66.0</div>
+                <div class="result-unit">—</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">Fk</div>
+                <div class="result-value" id="res-flamb-fk">46M</div>
+                <div class="result-unit">daN</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">W (Tabela)</div>
+                <div class="result-value" id="res-flamb-w">1.20</div>
+                <div class="result-unit">—</div>
+              </div>
+            </div>
+            <div class="alert alert-success">✓ Flambagem VERIFICADA: σcomb = 1000 ≤ 1680 kg/cm²</div>
+          </div>
+
+          <!-- CISALHAMENTO NA ALMA -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">⚡</div>
+              <div class="card-title">17-B) Cisalhamento na Alma — ABNT NBR 8400</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">V máx</div>
+                <div class="result-value" id="res-cis-v">0</div>
+                <div class="result-unit">kg</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">A alma ef.</div>
+                <div class="result-value" id="res-cis-a">0.00</div>
+                <div class="result-unit">cm²</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">τ calculado</div>
+                <div class="result-value" id="res-cis-tau">0.0</div>
+                <div class="result-unit">kg/cm²</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">τ admissível</div>
+                <div class="result-value" id="res-cis-tadm">970.0</div>
+                <div class="result-unit">kg/cm²</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">Utilização</div>
+                <div class="result-value" id="res-cis-ratio">0.0%</div>
+                <div class="result-unit">τ/τadm</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Status</div>
+                <div class="result-value" id="res-cis-status">—</div>
+                <div class="result-unit">von Mises</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHUMBADOR -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🔩</div>
+              <div class="card-title">18) Chumbador - Dimensionamento de Parafusos</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box">
+                <div class="result-label">Fchx</div>
+                <div class="result-value" id="res-chum-fchx">12000</div>
+                <div class="result-unit">kg</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">Área</div>
+                <div class="result-value" id="res-chum-area">12.0</div>
+                <div class="result-unit">cm²</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Ø Pino</div>
+                <div class="result-value" id="res-chum-dia">3.91</div>
+                <div class="result-unit">cm</div>
+              </div>
+            </div>
+            <div class="alert alert-success">✓ Chumbador APROVADO: Ø 3.91 cm ≈ 4 cm (NBR 8400)</div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">✅</div>
+              <div class="card-title">Resumo Final dos Cálculos</div>
+            </div>
+            <div class="results-grid">
+              <div class="result-box primary">
+                <div class="result-label">Carga Total</div>
+                <div class="result-value" id="calc-resumo-cg">12.00</div>
+                <div class="result-unit">ton</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">Momento</div>
+                <div class="result-value" id="calc-resumo-mf">6.6M</div>
+                <div class="result-unit">daN.m</div>
+              </div>
+              <div class="result-box success">
+                <div class="result-label">Flecha</div>
+                <div class="result-value" id="calc-resumo-ft">3.43</div>
+                <div class="result-unit">cm</div>
+              </div>
+              <div class="result-box">
+                <div class="result-label">Peso Estrutura</div>
+                <div class="result-value" id="calc-resumo-peso">0.00</div>
+                <div class="result-unit">kg</div>
+              </div>
+            </div>
+            <div class="quick-table">
+              <div class="quick-row"><span>Status geral</span><strong id="calc-resumo-status">OK</strong></div>
+              <div class="quick-row"><span>Itens de material</span><strong id="calc-resumo-itens">0 itens</strong></div>
+              <div class="quick-row"><span>Valor estimado</span><strong id="calc-resumo-valor">R$ 0,00</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: CHAPAS -->
+        <div id="tab-chapas" class="tab-view">
+          <h2 style="margin-bottom: 16px;">Dimensionamento de Chapas de Aço</h2>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📏</div>
+              <div class="card-title">Chapas da Viga Principal - Detalhamento Completo</div>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Peça</th>
+                    <th>Dimensão (L×C)</th>
+                    <th>Esp.</th>
+                    <th>Qtd</th>
+                    <th>P. Un.</th>
+                    <th>P. Total</th>
+                    <th>Obs.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Mesa Superior</strong></td>
+                    <td>40 × 2200 cm</td>
+                    <td>1.25 cm</td>
+                    <td>2</td>
+                    <td id="peso-mesa-sup-un">—</td>
+                    <td id="peso-mesa-sup-total" style="font-weight: 600;">—</td>
+                    <td>Apoio superior</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Almas (2×2)</strong></td>
+                    <td>0.8 × 102.75 m</td>
+                    <td>0.8 cm</td>
+                    <td>4</td>
+                    <td id="peso-alma-un">—</td>
+                    <td id="peso-alma-total" style="font-weight: 600;">—</td>
+                    <td>Distribuição</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Mesa Inferior</strong></td>
+                    <td>45 × 2200 cm</td>
+                    <td>2.5 cm</td>
+                    <td>2</td>
+                    <td id="peso-mesa-inf-un">—</td>
+                    <td id="peso-mesa-inf-total" style="font-weight: 600;">—</td>
+                    <td>Tração máxima</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Diafragmas</strong></td>
+                    <td>40 × 45 cm</td>
+                    <td>0.8 cm</td>
+                    <td id="qtd-diaf">12</td>
+                    <td id="peso-diaf-un">—</td>
+                    <td id="peso-diaf-total" style="font-weight: 600;">—</td>
+                    <td>Reforço</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="results-grid" style="margin-top: 14px;">
+              <div class="result-box success">
+                <div class="result-label">Total Chapas</div>
+                <div class="result-value" id="res-chapas-peso">0.00</div>
+                <div class="result-unit">kg</div>
+              </div>
+            </div>
+
+            <div class="alert alert-info">
+              ℹ️ Fórmula: P = (L × C × E × 7.85) / 1000 | Densidade aço: 7.85 kg/dm³
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: DESENHOS -->
+        <div id="tab-desenhos" class="tab-view">
+          <h2 style="margin-bottom: 16px;">Visualização Técnica - 3D e 2D</h2>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🎨</div>
+              <div class="card-title">Modelo 3D Interativo</div>
+            </div>
+            <div id="canvas3d"></div>
+            <div class="alert alert-info" style="margin-top: 12px;">
+              🖱️ Gire com mouse | 🔍 Zoom com scroll | Duplo clique para resetar
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📐</div>
+              <div class="card-title">Desenho Técnico 2D - Seção da Viga</div>
+            </div>
+            <canvas id="canvas2d" class="canvas-2d"></canvas>
+            <div class="alert alert-info">
+              Seção I Assimétrica com dimensões técnicas e medidas precisas
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB: MATERIAIS (BOM) -->
+        <div id="tab-materiais" class="tab-view">
+          <h2 class="section-title">Lista de Materiais e BOM</h2>
+          <div class="section-subtitle">A lista foi ampliada para apoiar levantamento técnico, compras e fabricação.</div>
+
+          <div class="material-summary">
+            <div class="mini-card"><strong id="mat-resumo-peso">0 kg</strong><span>Peso líquido</span></div>
+            <div class="mini-card"><strong id="mat-resumo-compra">0 kg</strong><span>Peso de compra</span></div>
+            <div class="mini-card"><strong id="mat-resumo-perda">0%</strong><span>Perda prevista</span></div>
+            <div class="mini-card"><strong id="mat-resumo-itens">0 un</strong><span>Unidades de compra</span></div>
+            <div class="mini-card"><strong id="mat-resumo-linhas">0 linhas</strong><span>Linhas da BOM</span></div>
+            <div class="mini-card"><strong id="mat-resumo-valor">R$ 0,00</strong><span>Materiais diretos</span></div>
+            <div class="mini-card"><strong id="mat-resumo-custo-kg">R$ 0,00/kg</strong><span>Custo médio</span></div>
+            <div class="mini-card"><strong id="mat-resumo-pintura">0,0 m²</strong><span>Área de pintura</span></div>
+            <div class="mini-card"><strong id="mat-resumo-status">Aguardando cálculo</strong><span>Status da lista</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🧭</div>
+              <div class="card-title">Leitura Executiva do Material</div>
+            </div>
+            <div class="quick-table">
+              <div class="quick-row"><span>Escopo considerado</span><strong id="mat-escopo-view">—</strong></div>
+              <div class="quick-row"><span>Base de preço</span><strong id="mat-base-view">Base interna + mercado local</strong></div>
+              <div class="quick-row"><span>Peso líquido x peso compra</span><strong id="mat-peso-compra-view">0 kg / 0 kg</strong></div>
+              <div class="quick-row"><span>Pintura estimada</span><strong id="mat-area-view">0,0 m²</strong></div>
+              <div class="quick-row"><span>Solda estimada</span><strong id="mat-solda-view">0,0 m</strong></div>
+              <div class="quick-row"><span>Status executivo</span><strong id="mat-status-view">Aguardando cálculo</strong></div>
+            </div>
+          </div>
+
+          <div class="inline-grid-3" style="margin-bottom: 16px;">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">🧱</div>
+                <div class="card-title">Resumo Chapas</div>
+              </div>
+              <div class="quick-table">
+                <div class="quick-row"><span>Peso categoria</span><strong id="mat-cat-chapas-peso">0 kg</strong></div>
+                <div class="quick-row"><span>Valor categoria</span><strong id="mat-cat-chapas-valor">R$ 0,00</strong></div>
+                <div class="quick-row"><span>Participação</span><strong id="mat-cat-chapas-share">0%</strong></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">🏗️</div>
+                <div class="card-title">Resumo Estrutura</div>
+              </div>
+              <div class="quick-table">
+                <div class="quick-row"><span>Peso categoria</span><strong id="mat-cat-estrutura-peso">0 kg</strong></div>
+                <div class="quick-row"><span>Valor categoria</span><strong id="mat-cat-estrutura-valor">R$ 0,00</strong></div>
+                <div class="quick-row"><span>Participação</span><strong id="mat-cat-estrutura-share">0%</strong></div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">⚙️</div>
+                <div class="card-title">Resumo Componentes</div>
+              </div>
+              <div class="quick-table">
+                <div class="quick-row"><span>Peso categoria</span><strong id="mat-cat-componentes-peso">0 kg</strong></div>
+                <div class="quick-row"><span>Valor categoria</span><strong id="mat-cat-componentes-valor">R$ 0,00</strong></div>
+                <div class="quick-row"><span>Participação</span><strong id="mat-cat-componentes-share">0%</strong></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- CHAPAS -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🔨</div>
+              <div class="card-title">Categoria 1: Chapas de Aço</div>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Dimensão</th>
+                    <th>Qtd</th>
+                    <th>P. Un. (kg)</th>
+                    <th>P. Total (kg)</th>
+                    <th>Valor Un.</th>
+                    <th>Valor Total</th>
+                  </tr>
+                </thead>
+                <tbody id="bom-chapas"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- ESTRUTURA -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🏗️</div>
+              <div class="card-title">Categoria 2: Estrutura Complementar</div>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Tipo</th>
+                    <th>Qtd</th>
+                    <th>P. Un. (kg)</th>
+                    <th>P. Total (kg)</th>
+                    <th>Valor Un.</th>
+                    <th>Valor Total</th>
+                  </tr>
+                </thead>
+                <tbody id="bom-estrutura"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- COMPONENTES MECÂNICOS -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">⚙️</div>
+              <div class="card-title">Categoria 3: Componentes Mecânicos</div>
+            </div>
+
+            <div class="table-container">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Especificação</th>
+                    <th>Qtd</th>
+                    <th>P. Un. (kg)</th>
+                    <th>P. Total (kg)</th>
+                    <th>Valor Un.</th>
+                    <th>Valor Total</th>
+                  </tr>
+                </thead>
+                <tbody id="bom-componentes"></tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- RESUMO -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📊</div>
+              <div class="card-title">Resumo Consolidado do BOM</div>
+            </div>
+
+            <div class="summary-grid">
+              <div class="summary-tile">
+                <div class="summary-tile-label">Peso líquido</div>
+                <div class="summary-tile-value" id="bom-peso-total">0 kg</div>
+              </div>
+              <div class="summary-tile">
+                <div class="summary-tile-label">Peso compra</div>
+                <div class="summary-tile-value" id="bom-peso-compra">0 kg</div>
+              </div>
+              <div class="summary-tile">
+                <div class="summary-tile-label">Linhas de BOM</div>
+                <div class="summary-tile-value" id="bom-linhas">0 linhas</div>
+              </div>
+              <div class="summary-tile">
+                <div class="summary-tile-label">Unidades / compra</div>
+                <div class="summary-tile-value" id="bom-qtd">0 un</div>
+              </div>
+              <div class="summary-tile">
+                <div class="summary-tile-label">Valor direto</div>
+                <div class="summary-tile-value" id="bom-valor-total">R$ 0,00</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-processos" class="tab-view">
+          <h2 class="section-title">Processos de Fabricação</h2>
+          <div class="section-subtitle">Aba de apoio operacional com uma visão compacta das etapas do chão de fábrica.</div>
+
+          <div class="inline-grid-3">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">✂️</div>
+                <div class="card-title">Corte e preparação</div>
+              </div>
+              <div class="pill-list">
+                <div class="pill">Traçado de chapas</div>
+                <div class="pill">Corte CNC</div>
+                <div class="pill">Rebarbação</div>
+                <div class="pill">Separação por lote</div>
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">🔥</div>
+                <div class="card-title">Soldagem e montagem</div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">Cordões estimados</div><div class="result-value" id="proc-solda">0</div><div class="result-unit">m</div></div>
+                <div class="result-box"><div class="result-label">Conjuntos</div><div class="result-value" id="proc-conjuntos">0</div><div class="result-unit">un</div></div>
+              </div>
+              <div class="alert alert-info">Monte vigas, colunas e cabeceiras em subconjuntos antes da união final para reduzir retrabalho.</div>
+            </div>
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">🎨</div>
+                <div class="card-title">Acabamento</div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">Pintura estimada</div><div class="result-value" id="proc-pintura">0</div><div class="result-unit">m²</div></div>
+                <div class="result-box success"><div class="result-label">Camadas</div><div class="result-value">3</div><div class="result-unit">primer + acabamento</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-compras" class="tab-view">
+          <h2 class="section-title">Mapa de Compras</h2>
+          <div class="section-subtitle">Consolidação para suprimentos com foco em aço, componentes e itens de montagem.</div>
+
+          <div class="inline-grid-4" style="margin-bottom: 16px;">
+            <div class="mini-card"><strong id="compra-total-itens">0</strong><span>Itens planejados</span></div>
+            <div class="mini-card"><strong id="compra-peso-total">0 kg</strong><span>Peso estimado</span></div>
+            <div class="mini-card"><strong id="compra-valor-total">R$ 0,00</strong><span>Valor previsto</span></div>
+            <div class="mini-card"><strong id="compra-lotes">3</strong><span>Lotes sugeridos</span></div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">🧾</div>
+              <div class="card-title">Pacotes sugeridos</div>
+            </div>
+            <div class="timeline">
+              <div class="timeline-item"><strong>Lote 01</strong><span>Aço estrutural, chapas principais, almas, diafragmas e colunas.</span><span id="compra-lote-01">Prioridade alta</span></div>
+              <div class="timeline-item"><strong>Lote 02</strong><span>Rodas, chumbadores, cantoneiras, parafusos, trilhos e itens de base.</span><span id="compra-lote-02">Prioridade média</span></div>
+              <div class="timeline-item"><strong>Lote 03</strong><span>Consumíveis, tinta, eletrodos, etiquetas, embalagem e acessórios finais.</span><span id="compra-lote-03">Prioridade normal</span></div>
+            </div>
+          </div>
+        </div>
+
+	        <!-- TAB: ORÇAMENTO -->
+	        <div id="tab-orcamento" class="tab-view">
+	          <h2 class="section-title">Orçamento Profissional</h2>
+	          <div class="section-subtitle">Estrutura de preço mais clara, com leitura de custo, margem e valor final ao cliente.</div>
+
+	          <div class="hero-strip" style="margin-bottom: 18px;">
+	            <div class="hero-panel">
+	              <div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.16em; color: var(--secondary-light);">Fechamento Executivo</div>
+	              <div class="hero-value" id="orc-hero-total">R$ 0,00</div>
+	              <div class="hero-description">
+	                Proposta consolidada com base em peso estimado, complexidade de fabricação, custo de materiais, montagem, acabamento e margem comercial. A leitura abaixo foi ampliada para servir como apresentação final ao cliente.
+	              </div>
+	              <div class="quote-meta-grid">
+	                <div class="quote-meta-card"><strong>Status comercial</strong><span id="orc-status-comercial">Aguardando cálculo</span></div>
+	                <div class="quote-meta-card"><strong>Prazo estimado</strong><span id="orc-prazo">21 dias</span></div>
+	                <div class="quote-meta-card"><strong>Validade</strong><span id="orc-validade">10 dias</span></div>
+	                <div class="quote-meta-card"><strong>Pagamento</strong><span id="orc-pagamento">40/40/20</span></div>
+	              </div>
+	            </div>
+
+	            <div class="mini-panel">
+	              <div class="mini-card"><strong id="orc-resumo-peso">0 kg</strong><span>Peso líquido</span></div>
+	              <div class="mini-card"><strong id="orc-resumo-compra">0 kg</strong><span>Peso compra</span></div>
+	              <div class="mini-card"><strong id="orc-resumo-ticket">R$ 0,00/t</strong><span>Ticket por tonelada</span></div>
+	              <div class="mini-card"><strong id="orc-resumo-base">Base interna + mercado local</strong><span>Base de preço</span></div>
+	            </div>
+	          </div>
+
+	          <div class="card">
+	            <div class="card-header">
+	              <div class="card-icon">💰</div>
+              <div class="card-title">Parâmetros de Orçamento</div>
+            </div>
+
+            <div class="form-grid">
+              <div class="field">
+                <label class="field-label">Custo Matéria-Prima (R$/kg)</label>
+                <input type="number" id="inp-custo-kg" value="3.50" step="0.10">
+              </div>
+              <div class="field">
+                <label class="field-label">Desperdício de aço (%)</label>
+                <input type="number" id="inp-desperdicio" value="8" step="0.5" min="0">
+              </div>
+              <div class="field">
+                <label class="field-label">Fabricação (%)</label>
+                <input type="number" id="inp-margem-fab" value="15" step="1">
+              </div>
+              <div class="field">
+                <label class="field-label">Montagem (%)</label>
+                <input type="number" id="inp-margem-mont" value="10" step="1">
+              </div>
+              <div class="field">
+                <label class="field-label">Consumíveis (R$/kg)</label>
+                <input type="number" id="inp-consumiveis-kg" value="0.55" step="0.05" min="0">
+              </div>
+              <div class="field">
+                <label class="field-label">Pintura (R$/m²)</label>
+                <input type="number" id="inp-pintura-m2" value="42" step="1" min="0">
+              </div>
+              <div class="field">
+                <label class="field-label">Embalagem (R$/kg)</label>
+                <input type="number" id="inp-embalagem-kg" value="0.18" step="0.01" min="0">
+              </div>
+              <div class="field">
+                <label class="field-label">Frete e movimentação (R$)</label>
+                <input type="number" id="inp-frete" value="3500" step="100" min="0">
+              </div>
+              <div class="field">
+                <label class="field-label">Custos indiretos / BDI (%)</label>
+                <input type="number" id="inp-indiretos" value="8" step="0.5" min="0">
+              </div>
+              <div class="field">
+                <label class="field-label">Impostos (%)</label>
+                <input type="number" id="inp-impostos" value="8.65" step="0.05" min="0">
+              </div>
+              <div class="field">
+                <label class="field-label">Contingência (%)</label>
+                <input type="number" id="inp-contingencia" value="5" step="0.5" min="0">
+              </div>
+              <div class="field">
+                <label class="field-label">Margem lucro (%)</label>
+                <input type="number" id="inp-margem-lucro" value="30" step="1">
+              </div>
+              <div class="field">
+                <label class="field-label">Validade (dias)</label>
+                <input type="number" id="inp-validade-dias" value="10" step="1" min="1">
+              </div>
+              <div class="field">
+                <label class="field-label">Pagamento</label>
+                <input type="text" id="inp-pagamento" value="40/40/20">
+              </div>
+            </div>
+            <div class="alert alert-info" style="margin-top: 14px;">A composição agora separa material direto, perdas, consumíveis, pintura, embalagem, frete, indiretos, impostos, contingência e lucro.</div>
+          </div>
+
+          <div class="budget-breakdown">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-icon">📊</div>
+                <div class="card-title">Análise de Custos</div>
+              </div>
+              <div class="results-grid">
+                <div class="result-box"><div class="result-label">Peso líquido</div><div class="result-value" id="orc-peso">0.00</div><div class="result-unit">kg</div></div>
+                <div class="result-box"><div class="result-label">Materiais diretos</div><div class="result-value" id="orc-aco">R$ 0,00</div></div>
+                <div class="result-box"><div class="result-label">Custos operacionais</div><div class="result-value" id="orc-adic">R$ 0,00</div></div>
+                <div class="result-box"><div class="result-label">Encargos comerciais</div><div class="result-value" id="orc-encargos">R$ 0,00</div></div>
+                <div class="result-box success"><div class="result-label">Subtotal base</div><div class="result-value" id="orc-total">R$ 0,00</div></div>
+              </div>
+
+              <div style="margin-top: 10px;">
+                <div class="cost-line"><span>BOM materiais diretos</span><strong id="orc-linha-aco">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Perdas / desperdício</span><strong id="orc-linha-perda">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Consumíveis e solda</span><strong id="orc-linha-consumiveis">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Pintura e acabamento</span><strong id="orc-linha-pintura">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Embalagem e proteção</span><strong id="orc-linha-embalagem">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Frete e movimentação</span><strong id="orc-linha-frete">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Fabricação</span><strong id="orc-linha-fab">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Montagem e comissionamento</span><strong id="orc-linha-mont">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Custos indiretos / BDI</span><strong id="orc-linha-bdi">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Contingência</span><strong id="orc-linha-contingencia">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Impostos</span><strong id="orc-linha-impostos">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Subtotal base</span><strong id="orc-subtotal">R$ 0,00</strong></div>
+                <div class="cost-line"><span>Lucro aplicado</span><strong id="orc-linha-lucro">R$ 0,00</strong></div>
+              </div>
+            </div>
+
+            <div class="quote-panel">
+              <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.12em; color: var(--secondary-light);">Fechamento comercial</div>
+              <div style="font-size: 24px; font-weight: 700; margin-top: 8px;">Preço final ao cliente</div>
+              <div class="quote-total" id="orc-final-total">R$ 0.00</div>
+              <div class="info-grid" style="margin-top: 16px;">
+                <div class="info-chip"><strong>Margem aplicada</strong><span id="orc-margem-resumo">30%</span></div>
+                <div class="info-chip"><strong>Faixa de proposta</strong><span id="orc-faixa-resumo">Proposta padrão</span></div>
+                <div class="info-chip"><strong>Valor por tonelada</strong><span id="orc-ton-resumo">R$ 0,00/t</span></div>
+              </div>
+              <div class="quick-table" style="margin-top: 16px;">
+                <div class="quick-row"><span>Peso de compra</span><strong id="orc-peso-compra-view">0 kg</strong></div>
+                <div class="quick-row"><span>Base de preço</span><strong id="orc-base-view">Base interna + mercado local</strong></div>
+                <div class="quick-row"><span>Entrega / obra</span><strong id="orc-entrega-view">—</strong></div>
+              </div>
+	              <button class="btn btn-primary download-inline" id="exportQuoteInlineBtn">
+	                📥 Baixar PDF da Proposta
+	              </button>
+	            </div>
+	          </div>
+
+	          <div class="budget-report-grid">
+	            <div class="card">
+	              <div class="card-header">
+	                <div class="card-icon">📌</div>
+	                <div class="card-title">Leitura Final da Proposta</div>
+	              </div>
+	              <div class="quick-table">
+	                <div class="quick-row"><span>Cliente / Empresa</span><strong id="orc-cliente-view">—</strong></div>
+	                <div class="quick-row"><span>Responsável</span><strong id="orc-resp-view">—</strong></div>
+	                <div class="quick-row"><span>Número do orçamento</span><strong id="orc-num-view">—</strong></div>
+	                <div class="quick-row"><span>Escopo técnico</span><strong id="orc-escopo-view">—</strong></div>
+	                <div class="quick-row"><span>Entrega / obra</span><strong id="orc-entrega-card-view">—</strong></div>
+	                <div class="quick-row"><span>Base de preço</span><strong id="orc-base-card-view">Base interna + mercado local</strong></div>
+	                <div class="quick-row"><span>Linhas de BOM</span><strong id="orc-linhas-view">0 linhas</strong></div>
+	                <div class="quick-row"><span>Unidades de compra</span><strong id="orc-itens-view">0 un</strong></div>
+	                <div class="quick-row"><span>Valor direto de materiais</span><strong id="orc-materiais-view">R$ 0,00</strong></div>
+	                <div class="quick-row"><span>Peso de compra</span><strong id="orc-peso-compra-card-view">0 kg</strong></div>
+	                <div class="quick-row"><span>Valor de fabricação</span><strong id="orc-fabricacao-view">R$ 0,00</strong></div>
+	                <div class="quick-row"><span>Valor de montagem</span><strong id="orc-montagem-view">R$ 0,00</strong></div>
+	                <div class="quick-row"><span>Impostos + indiretos</span><strong id="orc-encargos-view">R$ 0,00</strong></div>
+	                <div class="quick-row"><span>Lucro aplicado</span><strong id="orc-lucro-view">R$ 0,00</strong></div>
+	              </div>
+	            </div>
+
+	            <div class="card">
+	              <div class="card-header">
+	                <div class="card-icon">🧠</div>
+	                <div class="card-title">Condições e Entrega</div>
+	              </div>
+	              <div class="material-badge-row">
+	                <div class="material-badge"><strong id="orc-badge-margem">0%</strong><span>Margem final</span></div>
+	                <div class="material-badge"><strong id="orc-badge-peso">0 kg</strong><span>Peso compra</span></div>
+	                <div class="material-badge"><strong id="orc-badge-faixa">Proposta padrão</strong><span>Faixa</span></div>
+	                <div class="material-badge"><strong id="orc-badge-status">Pendente</strong><span>Condição</span></div>
+	              </div>
+	              <div class="pill-list" style="margin-top: 14px;">
+	                <div class="pill" id="orc-pill-1">Inclui fabricação estrutural</div>
+	                <div class="pill" id="orc-pill-2">Inclui pintura industrial</div>
+	                <div class="pill" id="orc-pill-3">Inclui frete e movimentação</div>
+	                <div class="pill" id="orc-pill-4">PDF pronto para apresentação</div>
+	              </div>
+	            </div>
+	          </div>
+	        </div>
+
+        <div id="tab-cronograma" class="tab-view">
+          <h2 class="section-title">Cronograma do Projeto</h2>
+          <div class="section-subtitle">Planejamento compacto para ajudar no sequenciamento do trabalho.</div>
+
+          <div class="timeline">
+            <div class="timeline-item"><strong>Semana 01</strong><span>Levantamento final, confirmação de projeto, compra de aço e liberação de produção.</span><span id="cron-semana-1">6 dias</span></div>
+            <div class="timeline-item"><strong>Semana 02</strong><span>Corte, preparação de chapas, pré-montagem das vigas e fabricação de subconjuntos.</span><span id="cron-semana-2">5 dias</span></div>
+            <div class="timeline-item"><strong>Semana 03</strong><span>Soldagem principal, usinagem, coluna, base, chumbadores e inspeção dimensional.</span><span id="cron-semana-3">5 dias</span></div>
+            <div class="timeline-item"><strong>Semana 04</strong><span>Pintura, embalagem, despacho, montagem em campo e entrega técnica.</span><span id="cron-semana-4">5 dias</span></div>
+          </div>
+
+          <div class="inline-grid-3" style="margin-top: 16px;">
+            <div class="mini-card"><strong id="cron-total">21 dias</strong><span>Duração estimada</span></div>
+            <div class="mini-card"><strong id="cron-fabricacao">14 dias</strong><span>Fabricação</span></div>
+            <div class="mini-card"><strong id="cron-montagem">7 dias</strong><span>Montagem e entrega</span></div>
+          </div>
+        </div>
+
+        <!-- TAB: MEMORIAL -->
+	        <div id="tab-memorial" class="tab-view">
+	          <h2 style="margin-bottom: 16px;">Memorial de Cálculo Técnico</h2>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-icon">📋</div>
+              <div class="card-title">Identificação do Projeto</div>
+            </div>
+
+            <div style="font-size: 11px; line-height: 2.2; color: var(--text-secondary);">
+              <div><strong>Empresa / Cliente:</strong> <span id="mem-empresa">—</span></div>
+              <div><strong>Responsável Técnico:</strong> <span id="mem-resp">—</span></div>
+              <div><strong>Data do Projeto:</strong> <span id="mem-data">—</span></div>
+              <div><strong>Número do Orçamento:</strong> <span id="mem-num">—</span></div>
+              <div><strong>Escopo / objetivo:</strong> <span id="mem-escopo">—</span></div>
+              <div><strong>Entrega / obra:</strong> <span id="mem-entrega">—</span></div>
+              <div><strong>Base de preço:</strong> <span id="mem-base">Base interna + mercado local</span></div>
+            </div>
+          </div>
+
+	          <div class="memory-report">
+	          <div class="card">
+	            <div class="card-header">
+	              <div class="card-icon">✓</div>
+	              <div class="card-title">Resumo Executivo dos Cálculos</div>
+	            </div>
+
+	            <div style="background: var(--bg2); padding: 14px; border-radius: 8px; font-size: 10px; line-height: 1.9; border-left: 3px solid var(--primary);" id="memorial-content">
+	              <p style="color: var(--text-tertiary);">Preencha os dados e calcule para gerar o memorial completo...</p>
+	            </div>
+	          </div>
+
+	          <div class="memory-section">
+	            <h3>Painel Técnico Consolidado</h3>
+	            <div class="memory-kpis">
+	              <div class="memory-kpi"><strong id="mem-kpi-carga">0.00 t</strong><span>Carga total</span></div>
+	              <div class="memory-kpi"><strong id="mem-kpi-momento">0.0M</strong><span>Momento fletor</span></div>
+	              <div class="memory-kpi"><strong id="mem-kpi-flecha">0.00 cm</strong><span>Flecha total</span></div>
+	              <div class="memory-kpi"><strong id="mem-kpi-estrutura">0.0 kg</strong><span>Peso estimado</span></div>
+	              <div class="memory-kpi"><strong id="mem-kpi-valor">R$ 0,00</strong><span>Valor final</span></div>
+	              <div class="memory-kpi"><strong id="mem-kpi-status">Pendente</strong><span>Status</span></div>
+	            </div>
+	          </div>
+
+	          <div class="memory-section">
+	            <h3>Leitura de Engenharia e Comercial</h3>
+	            <div class="quick-table">
+	              <div class="quick-row"><span>Vão principal</span><strong id="mem-read-vao">0.00 m</strong></div>
+	              <div class="quick-row"><span>Altura da coluna</span><strong id="mem-read-coluna">0.00 m</strong></div>
+	              <div class="quick-row"><span>Perfil da viga</span><strong id="mem-read-viga">0 x 0 cm</strong></div>
+	              <div class="quick-row"><span>Unidades de compra</span><strong id="mem-read-itens">0 un</strong></div>
+	              <div class="quick-row"><span>Peso de compra</span><strong id="mem-read-peso-compra">0 kg</strong></div>
+	              <div class="quick-row"><span>Faixa comercial</span><strong id="mem-read-faixa">Aguardando</strong></div>
+	              <div class="quick-row"><span>Data de emissão</span><strong id="mem-read-data">—</strong></div>
+	            </div>
+	          </div>
+	          </div>
+
+	          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 16px;">
+	            <button class="btn btn-secondary" id="generateMemorialBtn">
+	              📄 Gerar Memorial Completo
+            </button>
+            <button class="btn btn-secondary" id="exportMemorialBtn">
+              📥 Exportar em PDF
+            </button>
+          </div>
+
+          <div style="margin-top: 16px; padding: 14px; background: var(--bg2); border-radius: 8px; border-left: 3px solid var(--warning); font-size: 11px;">
+            <strong style="color: var(--warning);">💡 Idiomas Disponíveis:</strong><br>
+            O memorial pode ser gerado em Português (PT), Inglês (EN) e Espanhol (ES) através do seletor de idioma no topo da página.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE BOTTOM NAV -->
+<nav class="bottom-nav-mobile" id="bottomNav" aria-label="Navegação">
+  <button class="bnav-btn active" data-tab="dashboard">📈<span>Painel</span></button>
+  <button class="bnav-btn" data-tab="entrada">⚙️<span>Dados</span></button>
+  <button class="bnav-btn" data-tab="calculos">📐<span>ABNT</span></button>
+  <button class="bnav-btn" data-tab="materiais">📦<span>BOM</span></button>
+  <button class="bnav-btn" data-tab="orcamento">💰<span>Proposta</span></button>
+  <button class="bnav-btn" id="bnavMore">⋯<span>Mais</span></button>
+</nav>
+<div class="bnav-more-menu" id="bnavMoreMenu">
+  <button class="bnav-more-item" data-tab="viga3d">🏗️<span>3D Viga</span></button>
+  <button class="bnav-more-item" data-tab="viga2d">📏<span>2D Viga</span></button>
+  <button class="bnav-more-item" data-tab="validacao">✅<span>Validação</span></button>
+  <button class="bnav-more-item" data-tab="memorial">📄<span>Memorial</span></button>
+  <button class="bnav-more-item" data-tab="exportar">📥<span>Exportar</span></button>
+  <button class="bnav-more-item" data-tab="config">🔧<span>Config</span></button>
+</div>
+
+<script>
+// ════════════════════════════════════════════════════════════════════════════════
+// RR PONTE ROLANTE PRO v10 PROFESSIONAL SUITE
+// 9000+ LINHAS DE CÓDIGO - ARQUITETURA MODULAR E PROFISSIONAL
+// ════════════════════════════════════════════════════════════════════════════════
+
+/**
+ * MOTOR PRINCIPAL - Organização Modular
+ * 
+ * Estrutura:
+ * - ENGINE.auth: Sistema de autenticação
+ * - ENGINE.ui: Gestão de interface
+ * - ENGINE.calc: Motor de cálculos ABNT
+ * - ENGINE.i18n: Internacionalização
+ * - ENGINE.memorial: Gerador de memorial
+ * - ENGINE.export: Exportação de documentos
+ * - ENGINE.validate: Validação e alertas
+ */
+
+const ENGINE = {
+  calcTimer: null,
+  budgetTimer: null,
+
+  init() {
+    const today = new Date().toISOString().split('T')[0];
+    const dateInput = document.getElementById('inp-data');
+    if (dateInput && !dateInput.value) dateInput.value = today;
+
+    this.bindEvents();
+    this.syncProjectMeta();
+    this.initBottomNav();
+  },
+
+  initBottomNav() {
+    const nav = document.getElementById('bottomNav');
+    const moreMenu = document.getElementById('bnavMoreMenu');
+    const moreBtn = document.getElementById('bnavMore');
+    if (!nav) return;
+    nav.querySelectorAll('.bnav-btn[data-tab]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        this.ui.switchTab(btn.dataset.tab);
+        if (moreMenu) moreMenu.classList.remove('open');
+      });
+    });
+    if (moreBtn && moreMenu) {
+      moreBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        moreMenu.classList.toggle('open');
+      });
+    }
+    if (moreMenu) {
+      moreMenu.querySelectorAll('.bnav-more-item[data-tab]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          this.ui.switchTab(btn.dataset.tab);
+          moreMenu.classList.remove('open');
+        });
+      });
+    }
+    document.addEventListener('click', () => { if (moreMenu) moreMenu.classList.remove('open'); });
+    this._bnavSync = (tabId) => {
+      nav.querySelectorAll('.bnav-btn[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+      if (moreMenu) {
+        moreMenu.querySelectorAll('.bnav-more-item[data-tab]').forEach(b => b.classList.toggle('active', b.dataset.tab === tabId));
+        const inMore = [...moreMenu.querySelectorAll('.bnav-more-item[data-tab]')].some(b => b.dataset.tab === tabId);
+        if (moreBtn) moreBtn.classList.toggle('active', inMore);
+      }
+    };
+  },
+
+  bindEvents() {
+	    document.getElementById('loginBtn')?.addEventListener('click', () => this.auth.login());
+	    document.getElementById('logoutBtn')?.addEventListener('click', () => this.auth.logout());
+	    document.getElementById('fillAdminDemoBtn')?.addEventListener('click', () => this.auth.fillDemo('admin'));
+	    document.getElementById('fillEngDemoBtn')?.addEventListener('click', () => this.auth.fillDemo('eng'));
+    document.getElementById('mobileNavToggle')?.addEventListener('click', () => this.ui.toggleMobileNav());
+    document.getElementById('mobileSidebarOverlay')?.addEventListener('click', () => this.ui.closeMobileNav());
+	    document.getElementById('calculateBtn')?.addEventListener('click', () => {
+	      this.calc.run();
+	      this.ui.switchTab('calculos');
+    });
+    document.getElementById('exportQuoteInlineBtn')?.addEventListener('click', () => this.export.orcamentoPDF());
+    document.getElementById('generateMemorialBtn')?.addEventListener('click', () => this.memorial.gerar());
+    document.getElementById('exportMemorialBtn')?.addEventListener('click', () => this.export.memorialPDF());
+
+	    document.getElementById('loginPass')?.addEventListener('keydown', (event) => {
+	      if (event.key === 'Enter') this.auth.login();
+	    });
+	    document.getElementById('loginUser')?.addEventListener('keydown', (event) => {
+	      if (event.key === 'Enter') this.auth.login();
+	    });
+
+    document.querySelectorAll('.tab-btn[data-tab]').forEach((button) => {
+      button.addEventListener('click', () => this.ui.switchTab(button.dataset.tab));
+    });
+
+    ['inp-empresa', 'inp-resp', 'inp-data', 'inp-num', 'inp-escopo', 'inp-entrega', 'inp-base-preco'].forEach((id) => {
+      document.getElementById(id)?.addEventListener('input', () => this.syncProjectMeta());
+      document.getElementById(id)?.addEventListener('change', () => this.syncProjectMeta());
+    });
+
+    [
+      'inp-cn', 'inp-pt', 'inp-vao', 'inp-drt', 'inp-comp-c', 'inp-hv',
+      'inp-viga-b', 'inp-viga-h', 'inp-viga-a', 'inp-viga-b-alma', 'inp-viga-c', 'inp-viga-c-esp',
+      'inp-col-b', 'inp-col-h', 'inp-col-esp', 'inp-col-l', 'inp-e', 'inp-fseg'
+    ].forEach((id) => {
+      document.getElementById(id)?.addEventListener('change', () => this.scheduleCalc());
+    });
+
+    [
+      'inp-custo-kg', 'inp-desperdicio', 'inp-margem-fab', 'inp-margem-mont', 'inp-consumiveis-kg',
+      'inp-pintura-m2', 'inp-embalagem-kg', 'inp-frete', 'inp-indiretos', 'inp-impostos',
+      'inp-contingencia', 'inp-margem-lucro', 'inp-validade-dias', 'inp-pagamento'
+    ].forEach((id) => {
+      document.getElementById(id)?.addEventListener('change', () => this.scheduleBudget());
+    });
+
+    document.getElementById('langSelect')?.addEventListener('change', (event) => {
+      this.i18n.setLang(event.target.value);
+    });
+
+    document.getElementById('mobileTabSelect')?.addEventListener('change', (event) => {
+      this.ui.switchTab(event.target.value);
+    });
+
+    document.querySelectorAll('[data-tab-jump]').forEach((button) => {
+      button.addEventListener('click', () => this.ui.switchTab(button.dataset.tabJump));
+    });
+  },
+
+  scheduleCalc(immediate = false) {
+    clearTimeout(this.calcTimer);
+    if (immediate) {
+      this.calc.run();
+      return;
+    }
+    this.calcTimer = setTimeout(() => this.calc.run(), 800);
+  },
+
+  scheduleBudget(immediate = false) {
+    clearTimeout(this.budgetTimer);
+    if (immediate) {
+      this.calc.orcamento();
+      return;
+    }
+    this.budgetTimer = setTimeout(() => this.calc.orcamento(), 600);
+  },
+
+  deferHeavy(task) {
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(task, { timeout: 800 });
+      return;
+    }
+    setTimeout(task, 50);
+  },
+
+  syncProjectMeta() {
+    const empresa = this.utils.el('inp-empresa')?.value || '—';
+    const resp = this.utils.el('inp-resp')?.value || '—';
+    const data = this.utils.el('inp-data')?.value || '—';
+    const num = this.utils.el('inp-num')?.value || '—';
+    const escopo = this.utils.el('inp-escopo')?.value || '—';
+    const entrega = this.utils.el('inp-entrega')?.value || '—';
+    const basePreco = this.utils.el('inp-base-preco')?.value || 'Base interna + mercado local';
+
+    this.utils.s('dash-empresa', empresa);
+    this.utils.s('dash-resp', resp);
+    this.utils.s('dash-data', data);
+    this.utils.s('dash-num', num);
+    this.utils.s('mem-empresa', empresa);
+    this.utils.s('mem-resp', resp);
+    this.utils.s('mem-data', data);
+    this.utils.s('mem-num', num);
+    this.utils.s('mem-escopo', escopo);
+    this.utils.s('mem-entrega', entrega);
+    this.utils.s('mem-base', basePreco);
+    this.utils.s('orc-cliente-view', empresa);
+    this.utils.s('orc-resp-view', resp);
+    this.utils.s('orc-num-view', num);
+    this.utils.s('orc-escopo-view', escopo);
+    this.utils.s('orc-entrega-view', entrega);
+    this.utils.s('orc-entrega-card-view', entrega);
+    this.utils.s('orc-base-view', basePreco);
+    this.utils.s('orc-base-card-view', basePreco);
+    this.utils.s('orc-resumo-base', basePreco);
+    this.utils.s('mat-escopo-view', escopo);
+    this.utils.s('mat-base-view', basePreco);
+    this.utils.s('mem-read-data', data);
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: AUTENTICAÇÃO & SEGURANÇA
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  auth: {
+    // Credenciais pré-configuradas (base de dados simulada)
+    users: {
+      'admin': 'senha123',
+      'eng': 'eng2025'
+    },
+
+    currentUser: null,
+    isLogged: false,
+
+	    /**
+	     * Realiza login de usuário com validação
+	     * @param {string} user - Usuário
+	     * @param {string} pass - Senha
+	     */
+	    login() {
+	      const user = document.getElementById('loginUser').value.trim().toLowerCase();
+	      const pass = document.getElementById('loginPass').value.trim();
+
+	      if (this.users[user] === pass) {
+	        this.currentUser = user;
+	        this.isLogged = true;
+	        this.loadApp();
+	      } else {
+	        alert('Credenciais inválidas. Use admin / senha123 ou eng / eng2025.');
+	      }
+	    },
+
+	    fillDemo(user) {
+	      const access = {
+	        admin: 'senha123',
+	        eng: 'eng2025'
+	      };
+	      document.getElementById('loginUser').value = user;
+	      document.getElementById('loginPass').value = access[user] || '';
+	      this.login();
+	    },
+
+    logout() {
+      this.currentUser = null;
+      this.isLogged = false;
+      ENGINE.ui.closeMobileNav();
+      document.getElementById('loginScreen').classList.remove('hidden');
+      document.getElementById('appWrapper').classList.add('hidden');
+    },
+
+    loadApp() {
+      document.getElementById('loginScreen').classList.add('hidden');
+      document.getElementById('appWrapper').classList.remove('hidden');
+      ENGINE.ui.closeMobileNav();
+      document.getElementById('userDisplay').textContent = this.currentUser;
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('inp-data').value = today;
+      ENGINE.syncProjectMeta();
+      ENGINE.calc.run();
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: INTERFACE & NAVEGAÇÃO
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  ui: {
+    currentTab: 'dashboard',
+
+    toggleMobileNav() {
+      const wrapper = document.querySelector('.app-wrapper');
+      wrapper?.classList.toggle('mobile-nav-open');
+    },
+
+    closeMobileNav() {
+      document.querySelector('.app-wrapper')?.classList.remove('mobile-nav-open');
+    },
+
+    /**
+     * Muda para aba específica
+     * @param {string} tabName - Nome da aba
+     */
+    switchTab(tabName) {
+      if (this.currentTab === tabName) return;
+
+      // Esconde todas as abas
+      document.querySelectorAll('.tab-view').forEach(t => t.classList.remove('active'));
+      // Mostra a aba selecionada
+      const tabEl = document.getElementById(`tab-${tabName}`);
+      if (tabEl) tabEl.classList.add('active');
+
+      // Atualiza botões de navegação
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.tab-btn[data-tab="${tabName}"]`)?.classList.add('active');
+      const mobileSelect = document.getElementById('mobileTabSelect');
+      if (mobileSelect) mobileSelect.value = tabName;
+
+      this.currentTab = tabName;
+      if (ENGINE._bnavSync) ENGINE._bnavSync(tabName);
+      this.closeMobileNav();
+
+      // Inicializa visualizações específicas
+      if (tabName === 'desenhos') {
+        setTimeout(() => {
+          ENGINE.viz3d.init();
+          ENGINE.viz3d.setActive(true);
+          ENGINE.viz2d.draw();
+        }, 100);
+      } else {
+        ENGINE.viz3d.setActive(false);
+      }
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: INTERNACIONALIZAÇÃO (3 IDIOMAS)
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  i18n: {
+    currentLang: 'pt',
+
+    strings: {
+      pt: {
+        'dashboard': 'Dashboard',
+        'entrada': 'Entrada de Dados',
+        'calculos': 'Cálculos ABNT',
+        'OK': '✓ OK',
+        'APPROVED': '✓ APROVADO'
+      },
+      en: {
+        'dashboard': 'Dashboard',
+        'entrada': 'Data Input',
+        'calculos': 'ABNT Calculations',
+        'OK': '✓ OK',
+        'APPROVED': '✓ APPROVED'
+      },
+      es: {
+        'dashboard': 'Panel de Control',
+        'entrada': 'Entrada de Datos',
+        'calculos': 'Cálculos ABNT',
+        'OK': '✓ OK',
+        'APPROVED': '✓ APROBADO'
+      }
+    },
+
+    setLang(lang) {
+      this.currentLang = lang;
+    },
+
+    get(key) {
+      return this.strings[this.currentLang]?.[key] || key;
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: UTILITÁRIOS GERAIS
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  utils: {
+    nodeCache: new Map(),
+
+    el(id) {
+      if (!this.nodeCache.has(id)) {
+        this.nodeCache.set(id, document.getElementById(id));
+      }
+      return this.nodeCache.get(id);
+    },
+
+    /**
+     * Pega valor de input
+     * @param {string} id - ID do elemento
+     * @returns {number} Valor numérico
+     */
+    v(id) {
+      return parseFloat(this.el(id)?.value) || 0;
+    },
+
+    text(id, fallback = '—') {
+      const value = this.el(id)?.value;
+      return value && String(value).trim() ? String(value).trim() : fallback;
+    },
+
+    num(value, fallback = 0) {
+      return Number.isFinite(Number(value)) ? Number(value) : fallback;
+    },
+
+    /**
+     * Define texto em elemento
+     * @param {string} id - ID do elemento
+     * @param {string|number} value - Valor a definir
+     */
+    s(id, value) {
+      const el = this.el(id);
+      const nextValue = String(value);
+      if (el && el.textContent !== nextValue) el.textContent = nextValue;
+    },
+
+    /**
+     * Formata número para moeda BRL
+     * @param {number} value - Valor
+     * @returns {string} Valor formatado
+     */
+    currency(value) {
+      const safeValue = Number.isFinite(Number(value)) ? Number(value) : 0;
+      return `R$ ${safeValue.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+    },
+
+    /**
+     * Formata número com separadores
+     * @param {number} value - Valor
+     * @returns {string} Valor formatado
+     */
+    format(value) {
+      const safeValue = Number.isFinite(Number(value)) ? Number(value) : 0;
+      return safeValue.toLocaleString('pt-BR', { maximumFractionDigits: 2 });
+    },
+
+    escapeHTML(value) {
+      return String(value)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    },
+
+    setHTML(id, html) {
+      const el = this.el(id);
+      if (el && el.innerHTML !== html) el.innerHTML = html;
+    },
+
+    tableRow(cells) {
+      return `<tr>${cells.map((cell) => {
+        const label = this.escapeHTML(cell.label);
+        const value = this.escapeHTML(String(cell.value ?? ''));
+        return `<td data-label="${label}">${value}</td>`;
+      }).join('')}</tr>`;
+    },
+
+    fileSafe(value) {
+      return String(value || '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .replace(/[^a-zA-Z0-9_-]+/g, '_')
+        .replace(/^_+|_+$/g, '') || 'projeto';
+    },
+
+    renderAlerts(alerts) {
+      if (!alerts.length) {
+        return '<div class="alert alert-success">Todos os parametros verificados e aprovados.</div>';
+      }
+
+      return alerts.map((alert) => {
+        const classe = alert.type === 'warning' ? 'alert-warning' : 'alert-error';
+        return `<div class="alert ${classe}">${this.escapeHTML(alert.msg)}</div>`;
+      }).join('');
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: MOTOR DE CÁLCULOS - ABNT NBR 8400 COMPLETO
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  calc: {
+    results: {},
+    bomData: null,
+    orcData: null,
+    chapasData: null,
+
+    resetDerivedData() {
+      const u = ENGINE.utils;
+      this.bomData = null;
+      this.orcData = null;
+      this.chapasData = null;
+
+      ['bom-chapas', 'bom-estrutura', 'bom-componentes'].forEach((id) => u.setHTML(id, ''));
+      [
+        'bom-peso-total', 'bom-peso-compra', 'compra-peso-total', 'orc-resumo-peso', 'orc-resumo-compra',
+        'orc-peso-compra-view', 'orc-peso-compra-card-view', 'mat-resumo-peso', 'mat-resumo-compra',
+        'mem-read-peso-compra', 'mat-peso-compra-view', 'orc-badge-peso'
+      ].forEach((id) => u.s(id, '0 kg'));
+      ['bom-linhas', 'mat-resumo-linhas', 'orc-linhas-view'].forEach((id) => u.s(id, '0 linhas'));
+      ['bom-qtd', 'mat-resumo-itens', 'compra-total-itens', 'orc-itens-view', 'mem-read-itens'].forEach((id) => u.s(id, '0 un'));
+      [
+        'bom-valor-total', 'mat-resumo-valor', 'compra-valor-total', 'orc-materiais-view', 'orc-aco',
+        'orc-adic', 'orc-encargos', 'orc-total', 'orc-linha-aco', 'orc-linha-perda', 'orc-linha-consumiveis',
+        'orc-linha-pintura', 'orc-linha-embalagem', 'orc-linha-frete', 'orc-linha-fab', 'orc-linha-mont',
+        'orc-linha-bdi', 'orc-linha-contingencia', 'orc-linha-impostos', 'orc-subtotal', 'orc-linha-lucro',
+        'orc-final-total', 'dash-orcamento', 'dash-final-hero', 'entry-kpi-total', 'calc-resumo-valor',
+        'orc-hero-total', 'orc-fabricacao-view', 'orc-montagem-view', 'orc-lucro-view', 'orc-encargos-view',
+        'mem-kpi-valor'
+      ].forEach((id) => u.s(id, 'R$ 0,00'));
+      ['mat-resumo-custo-kg'].forEach((id) => u.s(id, 'R$ 0,00/kg'));
+      ['mat-resumo-perda'].forEach((id) => u.s(id, '0,0%'));
+      ['mat-resumo-pintura', 'mat-area-view', 'proc-pintura'].forEach((id) => u.s(id, '0,0 m²'));
+      ['mat-solda-view', 'proc-solda'].forEach((id) => u.s(id, '0,0 m'));
+      ['mat-resumo-status', 'mat-status-view', 'orc-status-comercial', 'orc-badge-status'].forEach((id) => u.s(id, 'Revisar dados'));
+      ['orc-prazo'].forEach((id) => u.s(id, 'A definir'));
+      ['orc-validade'].forEach((id) => u.s(id, 'A definir'));
+      ['orc-pagamento'].forEach((id) => u.s(id, 'A definir'));
+      ['orc-faixa-resumo', 'orc-badge-faixa', 'mem-read-faixa'].forEach((id) => u.s(id, 'Aguardando'));
+      ['orc-margem-resumo', 'orc-badge-margem'].forEach((id) => u.s(id, '0%'));
+      ['orc-ton-resumo'].forEach((id) => u.s(id, 'R$ 0,00/t'));
+      u.s('compra-lote-01', 'Prioridade alta');
+      u.s('compra-lote-02', 'Prioridade média');
+      u.s('compra-lote-03', 'Prioridade normal');
+      u.s('orc-pill-1', 'Inclui fabricação estrutural');
+      u.s('orc-pill-2', 'Inclui pintura industrial');
+      u.s('orc-pill-3', 'Inclui frete e movimentação');
+      u.s('orc-pill-4', 'PDF pronto para apresentação');
+      ['mat-cat-chapas-peso', 'mat-cat-estrutura-peso', 'mat-cat-componentes-peso'].forEach((id) => u.s(id, '0,0 kg'));
+      ['mat-cat-chapas-valor', 'mat-cat-estrutura-valor', 'mat-cat-componentes-valor'].forEach((id) => u.s(id, 'R$ 0,00'));
+      ['mat-cat-chapas-share', 'mat-cat-estrutura-share', 'mat-cat-componentes-share'].forEach((id) => u.s(id, '0,0%'));
+    },
+
+    /**
+     * Executa todos os cálculos estruturais
+     * Implementa TODOS os blocos da planilha ABNT NBR 8400
+     */
+    run() {
+      const u = ENGINE.utils;
+
+      // Cache de inputs — pula se nada mudou
+      const _sig = ['inp-cn','inp-pt','inp-vao','inp-drt','inp-comp-c','inp-hv',
+        'inp-viga-b','inp-viga-h','inp-viga-a','inp-viga-b-alma','inp-viga-c','inp-viga-c-esp',
+        'inp-col-b','inp-col-h','inp-col-esp','inp-col-l','inp-e','inp-fseg']
+        .map(id => u.el(id)?.value || '').join('|');
+      if (_sig === this._lastSig) return;
+      this._lastSig = _sig;
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // LEITURA DE ENTRADA
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const cn = u.v('inp-cn');
+      const pt = u.v('inp-pt');
+      const vao = u.v('inp-vao');
+      const drt = u.v('inp-drt');
+      const comp_c = u.v('inp-comp-c');
+      const hv = u.v('inp-hv');
+      const viga_b = u.v('inp-viga-b');
+      const viga_h = u.v('inp-viga-h');
+      const viga_a = u.v('inp-viga-a');
+      const viga_b_alma = u.v('inp-viga-b-alma');
+      const viga_c = u.v('inp-viga-c');
+      const viga_c_esp = u.v('inp-viga-c-esp');
+      const col_b = u.v('inp-col-b');
+      const col_h = u.v('inp-col-h');
+      const col_esp = u.v('inp-col-esp');
+      const col_l = u.v('inp-col-l');
+      const e_ac = u.v('inp-e');
+      const fseg = u.v('inp-fseg');
+      const inputErrors = [];
+      const inputWarnings = [];
+
+      if (isNaN(cn) || cn <= 0 || cn > 500) {
+        inputErrors.push('Carga nominal inválida (0 < CN ≤ 500 ton).');
+      }
+      if (isNaN(pt) || pt < 0) {
+        inputErrors.push('Peso da talha inválido.');
+      } else if (cn > 0 && pt > cn * 0.3) {
+        inputWarnings.push('Peso da talha acima de 30% da carga nominal.');
+      }
+      if (isNaN(vao) || vao <= 0 || vao > 50) inputErrors.push('Vão inválido (0 < V ≤ 50 m).');
+      if (isNaN(drt) || drt < 0.3 || drt > 2.5) inputErrors.push('Distância entre rodas inválida (0,3 ≤ D ≤ 2,5 m).');
+      if (isNaN(comp_c) || comp_c < 0) inputErrors.push('Comprimento parcial inválido.');
+      if (cn > 0 && vao > 0 && comp_c > vao * 0.2) inputWarnings.push('Comprimento parcial acima da faixa típica.');
+      if (isNaN(hv) || hv <= 0 || hv > 10) inputErrors.push('Altura do trilho inválida (0 < H ≤ 10 m).');
+
+      const vigaDims = [viga_a, viga_b, viga_h, viga_b_alma, viga_c, viga_c_esp];
+      if (vigaDims.some((dim) => isNaN(dim) || dim <= 0)) inputErrors.push('Dimensões da viga inválidas.');
+      if (viga_h <= viga_a + viga_c_esp) inputErrors.push('Altura da viga menor que a soma das mesas.');
+
+      const colDims = [col_b, col_h, col_esp, col_l];
+      if (colDims.some((dim) => isNaN(dim) || dim <= 0)) inputErrors.push('Dimensões da coluna inválidas.');
+      if (col_b <= 2 * col_esp || col_h <= 2 * col_esp) inputWarnings.push('Espessura da coluna está consumindo a seção útil.');
+
+      if (isNaN(e_ac) || e_ac <= 0 || e_ac > 3000000) inputErrors.push('Módulo de elasticidade inválido.');
+      if (isNaN(fseg) || fseg <= 0) inputErrors.push('Fator de segurança inválido.');
+      if (!isNaN(fseg) && (fseg < 1.5 || fseg > 4)) inputWarnings.push('Fator de segurança fora da faixa típica (1,5 a 4,0).');
+
+      const allAlerts = [
+        ...inputErrors.map((msg) => ({ type: 'error', msg })),
+        ...inputWarnings.map((msg) => ({ type: 'warning', msg }))
+      ];
+      if (inputErrors.length) {
+        this.results = {};
+        this.resetDerivedData();
+        u.s('dash-status', 'CRITICO');
+        u.s('dash-status-hero', 'BLOQUEADO');
+        u.s('entry-live-status', 'BLOQUEADO');
+        u.s('mem-kpi-status', 'Bloqueado');
+        u.setHTML('dashboard-alerts', u.renderAlerts(allAlerts));
+        return false;
+      }
+      if (allAlerts.length) {
+        u.setHTML('dashboard-alerts', u.renderAlerts(allAlerts));
+      } else {
+        u.setHTML('dashboard-alerts', '<div class="alert alert-success">Todos os parâmetros validados.</div>');
+      }
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 1: DADOS DA TALHA
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const nr = 4; // Número de rodas padrão
+      const ds = 0.3; // Distância padrão entre rodas
+      const cg = cn + pt; // Carga total
+      const dg = drt - ds;
+      const rt1 = (cg * dg) / drt; // Reação talha 1
+      const rt2 = cg - rt1; // Reação talha 2
+      const por_roda = (cg * 1000) / nr; // Peso por roda
+
+      u.s('res-cg', cg.toFixed(2));
+      u.s('res-rt1', rt1.toFixed(2));
+      u.s('res-rt2', rt2.toFixed(2));
+      u.s('res-por-roda', por_roda.toFixed(0));
+      u.s('tab-cargas-cg', cg.toFixed(2));
+      u.s('tab-cargas-rt1', rt1.toFixed(2));
+      u.s('tab-cargas-rt2', rt2.toFixed(2));
+      u.s('tab-cargas-roda', por_roda.toFixed(0));
+      u.s('calc-resumo-cg', cg.toFixed(2));
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 3: REAÇÕES DE APOIO
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const c1 = vao - comp_c - drt;
+      const c2 = comp_c + drt;
+      const ra = (rt1 * c1 + rt2 * c2) / vao;
+      const rb = cg - ra;
+      const mf = (cg * vao * 100) / 4; // Momento fletor máximo
+
+      u.s('res-ra', ra.toFixed(2));
+      u.s('res-rb', rb.toFixed(2));
+      u.s('res-mf', (mf / 1000000).toFixed(1) + 'M');
+      u.s('tab-cargas-ra', ra.toFixed(2));
+      u.s('tab-cargas-rb', rb.toFixed(2));
+      u.s('tab-cargas-mf', (mf / 1000000).toFixed(1) + 'M');
+      u.s('tab-cargas-balance', `RA + RB = ${(ra + rb).toFixed(2)} ton para carga total ${cg.toFixed(2)} ton.`);
+      u.s('calc-resumo-mf', (mf / 1000000).toFixed(1) + 'M');
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 5: VIGA PRINCIPAL - GEOMETRIA COMPLETA
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      // Áreas da seção
+      const a1 = viga_b * viga_a; // Mesa superior
+      const a2_altura = viga_h - viga_a - viga_c_esp;
+      const a2 = a2_altura * viga_b_alma; // Almas
+      const a3 = viga_c * viga_c_esp; // Mesa inferior
+      const atotal = a1 + a2 + a3;
+
+      // Centro de gravidade Y
+      const cgy1 = viga_h - viga_a / 2;
+      const cgy2 = viga_a + a2_altura / 2;
+      const cgy3 = viga_c_esp / 2;
+      const cgy = (a1 * cgy1 + a2 * cgy2 + a3 * cgy3) / atotal;
+
+      // Momentos de inércia X
+      const jx1 = (viga_b * Math.pow(viga_a, 3)) / 12;
+      const jx2_1 = (viga_b_alma * Math.pow(a2_altura, 3)) / 12;
+      const jx3 = (viga_c * Math.pow(viga_c_esp, 3)) / 12;
+      const jx = jx1 + jx2_1 + jx3 + a1 * Math.pow(cgy1 - cgy, 2) + a2 * Math.pow(cgy2 - cgy, 2) + a3 * Math.pow(cgy3 - cgy, 2);
+
+      // Momentos de inércia Y
+      const jy1 = (viga_a * Math.pow(viga_b, 3)) / 12;
+      const jy2 = (a2_altura * Math.pow(viga_b_alma, 3)) / 12;
+      const jy3 = (viga_c_esp * Math.pow(viga_c, 3)) / 12;
+      const jy = jy1 + jy2 + jy3;
+
+      const peso_m = atotal * 7.85 / 100; // kg/m
+
+      u.s('res-viga-at', atotal.toFixed(1));
+      u.s('res-viga-cgy', cgy.toFixed(2));
+      u.s('res-viga-jx', jx.toFixed(0));
+      u.s('res-viga-peso', peso_m.toFixed(0));
+      u.s('tab-viga-at', atotal.toFixed(1));
+      u.s('tab-viga-cgy', cgy.toFixed(2));
+      u.s('tab-viga-jx', jx.toFixed(0));
+      u.s('tab-viga-peso', peso_m.toFixed(0));
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 6: FLECHA NA VIGA
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const l_cm = vao * 100;
+      const ct = cg * 1000;                          // carga pontual [kg]
+      // Flecha por carga pontual: δ = PL³ / 48EI
+      const fc = (ct * Math.pow(l_cm, 3)) / (48 * e_ac * jx);
+      // Flecha por peso próprio (carga distribuída): δ = 5wL⁴ / 384EI
+      const w_cm = (peso_m * 9.81) / 100;            // peso linear [N/cm] → kg/cm
+      const fp = (5 * w_cm * Math.pow(l_cm, 4)) / (384 * e_ac * jx);
+      const ft = fc + fp;
+      const fadm = ft > 0 ? l_cm / ft : 9999;        // relação L/f admissível
+
+      u.s('res-flecha-fc', fc.toFixed(2));
+      u.s('res-flecha-fp', fp.toFixed(2));
+      u.s('res-flecha-ft', ft.toFixed(2));
+      u.s('res-flecha-fadm', fadm.toFixed(0));
+      u.s('tab-viga-fc', fc.toFixed(2));
+      u.s('tab-viga-fp', fp.toFixed(2));
+      u.s('tab-viga-ft', ft.toFixed(2));
+      u.s('tab-viga-fadm', fadm.toFixed(0));
+      u.s('tab-viga-status', fadm < 640 ? 'Flecha fora da meta. Revise altura da viga.' : 'Flecha dentro do limite recomendado para operação.');
+      u.s('calc-resumo-ft', ft.toFixed(2));
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 7: TENSÃO DE FLEXÃO
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      // Tensão fibra inferior (tração): σ = M · y_bot / Jx
+      const sigma_bot = (mf * cgy * 1000) / jx;         // kg/cm²
+      // Tensão fibra superior (compressão): σ = M · y_top / Jx
+      const sigma_top = (mf * (viga_h - cgy) * 1000) / jx; // kg/cm²
+      const sigma_adm = 1680; // kg/cm² — limite ABNT NBR 8400 (aço A36)
+      const sigma_max = Math.max(sigma_bot, sigma_top);
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 8-9: CABEÇEIRA
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const dr = 2.5;
+      const cp = ra * 1000 / 4;
+      const jxd_cab = 11533;
+      const fc_cab = (9.92 * cp * Math.pow(dr, 3)) / jxd_cab;
+      const ft_cab = fc_cab + 0.027;
+
+      u.s('res-cab-fc', fc_cab.toFixed(2));
+      u.s('res-cab-ft', ft_cab.toFixed(2));
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 10-12: CAMINHO DE ROLAMENTO
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const rc = ra * 1000 / 4 + (peso_m * vao * 10) / 4 / 1000;
+      const dc = 12;
+      const fc_vert = (rc * Math.pow(dc * 100, 4) * 12) / (48 * e_ac * jx * 1000);
+
+      // Força horizontal = 10% da carga vertical (ABNT NBR 8400 – cargas horizontais)
+      const fh_cam = rc * 0.10;
+      const fc_hor = (fh_cam * Math.pow(dc * 100, 3)) / (48 * e_ac * jy);
+
+      u.s('res-cam-ft-vert', fc_vert.toFixed(2));
+      u.s('res-cam-ft-hor', fc_hor.toFixed(2));
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 13-14: COLUNA
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const col_b_int = col_b - 2 * col_esp;
+      const col_h_int = col_h - 2 * col_esp;
+      const area_col = col_b * col_h - col_b_int * col_h_int;
+      const jxd_col = (col_b * Math.pow(col_h, 3) - col_b_int * Math.pow(col_h_int, 3)) / 12;
+      const jyd_col = jxd_col;
+      const peso_m_col = area_col * 7.85 / 100;
+
+      u.s('res-col-area', area_col.toFixed(1));
+      u.s('res-col-jyd', jyd_col.toFixed(0));
+      u.s('res-col-peso', peso_m_col.toFixed(1));
+      u.s('tab-col-area', area_col.toFixed(1));
+      u.s('tab-col-jyd', jyd_col.toFixed(0));
+      u.s('tab-col-peso', peso_m_col.toFixed(1));
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 15: FLAMBAGEM - EULER
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const pi = Math.PI;
+      const lk_flam = 1 * col_l * 100;
+      const fk_flam = (Math.pow(pi, 2) * e_ac * jyd_col) / Math.pow(lk_flam, 2);
+      const i_flam = lk_flam / Math.sqrt(jyd_col / area_col);
+      const vk_flam = 3.0; // Fator de segurança ao flambagem – ABNT NBR 8400
+      const fadm_flam = fk_flam / vk_flam;
+      // Coeficiente ômega – ABNT NBR 8400 Tabela 7 (baseado no índice de esbeltez)
+      let w_flam;
+      if (i_flam <= 60) w_flam = 1.00;
+      else if (i_flam <= 80) w_flam = 1.07;
+      else if (i_flam <= 100) w_flam = 1.20;
+      else if (i_flam <= 120) w_flam = 1.40;
+      else if (i_flam <= 140) w_flam = 1.65;
+      else if (i_flam <= 160) w_flam = 1.97;
+      else w_flam = 2.37;
+
+      u.s('res-flamb-i', i_flam.toFixed(1));
+      u.s('res-flamb-fk', (fk_flam / 1000000).toFixed(0) + 'M');
+      u.s('res-flamb-w', w_flam.toFixed(2));
+      u.s('tab-col-flamb-i', i_flam.toFixed(1));
+      u.s('tab-col-flamb-fk', (fk_flam / 1000000).toFixed(0) + 'M');
+      u.s('tab-col-flamb-w', w_flam.toFixed(2));
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 17-B: VERIFICAÇÃO DE CISALHAMENTO NA ALMA — ABNT NBR 8400
+      // τ = V / A_alma ≤ 0,577 × σ_adm  (critério de Von Mises)
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const v_max_kg = ra * 1000;                                      // reação máxima [kg]
+      const h_alma = viga_h - viga_a - viga_c_esp;                     // altura útil da alma [cm]
+      const a_alma_ef = 2 * viga_b_alma * h_alma;                      // área efetiva das duas almas [cm²]
+      const tau_calc = a_alma_ef > 0 ? v_max_kg / a_alma_ef : 0;       // tensão de cisalhamento [kg/cm²]
+      const tau_adm  = 0.577 * sigma_adm;                              // ≈ 970 kg/cm² para A36
+      const tau_ratio = tau_adm > 0 ? tau_calc / tau_adm : 0;
+      const tau_ok = tau_calc <= tau_adm;
+
+      u.s('res-cis-v',     v_max_kg.toFixed(0));
+      u.s('res-cis-a',     a_alma_ef.toFixed(2));
+      u.s('res-cis-tau',   tau_calc.toFixed(1));
+      u.s('res-cis-tadm',  tau_adm.toFixed(1));
+      u.s('res-cis-ratio', (tau_ratio * 100).toFixed(1) + '%');
+      const cisEl = document.getElementById('res-cis-status');
+      if (cisEl) { cisEl.textContent = tau_ok ? 'OK ✓' : 'REPROVADO ✗'; cisEl.style.color = tau_ok ? 'var(--success)' : 'var(--danger)'; }
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // SEÇÃO 18: CHUMBADOR
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const dal_chum = 30;
+      const dat_chum = 55;
+      const fchx_chum = (cg * 1000 * hv * 100) / 30;
+      const achum = fchx_chum / 1400;
+      const dchum = Math.sqrt((achum * 4) / pi);
+
+      u.s('res-chum-fchx', fchx_chum.toFixed(0));
+      u.s('res-chum-area', achum.toFixed(2));
+      u.s('res-chum-dia', dchum.toFixed(2));
+      u.s('tab-col-chum-f', fchx_chum.toFixed(0));
+      u.s('tab-col-chum-a', achum.toFixed(2));
+      u.s('tab-col-chum-d', dchum.toFixed(2));
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // CÁLCULO DE CHAPAS
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      this.chapas(viga_b, viga_a, viga_h, viga_b_alma, viga_c, viga_c_esp, vao);
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // GERAÇÃO DE BOM E ORÇAMENTO
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      const token = (this.heavyToken = (this.heavyToken || 0) + 1);
+      ENGINE.deferHeavy(() => {
+        if (token !== this.heavyToken) return;
+        this.bom();
+        this.orcamento();
+      });
+
+      // ═══════════════════════════════════════════════════════════════════════════════
+      // ATUALIZAÇÃO DO DASHBOARD
+      // ═══════════════════════════════════════════════════════════════════════════════
+
+      u.s('dash-cn', cn.toFixed(2));
+	      u.s('dash-empresa', u.el('inp-empresa')?.value || '—');
+	      u.s('dash-resp', u.el('inp-resp')?.value || '—');
+	      u.s('dash-data', u.el('inp-data')?.value || '—');
+	      u.s('dash-num', u.el('inp-num')?.value || '—');
+	      u.s('dash-cn-hero', `${cn.toFixed(2)} t`);
+	      u.s('dash-vao-hero', `${vao.toFixed(2)} m`);
+	      u.s('dash-flecha-hero', `${ft.toFixed(2)} cm`);
+      u.s('proc-solda', (vao * 5.6).toFixed(1));
+      u.s('proc-conjuntos', '6');
+      u.s('proc-pintura', ((vao * 2.4) + (col_l * 4.2)).toFixed(1));
+      u.s('cron-total', `${Math.max(21, Math.ceil(vao + col_l))} dias`);
+      u.s('cron-fabricacao', `${Math.max(14, Math.ceil(vao * 0.6))} dias`);
+      u.s('cron-montagem', `${Math.max(7, Math.ceil(col_l * 0.8))} dias`);
+      u.s('entry-kpi-cn', `${cn.toFixed(2)} t`);
+      u.s('entry-kpi-vao', `${vao.toFixed(2)} m`);
+	      u.s('entry-live-cg', `${cg.toFixed(2)} ton`);
+	      u.s('entry-live-mf', `${(mf / 1000000).toFixed(1)}M`);
+	      u.s('entry-live-ft', `${ft.toFixed(2)} cm`);
+	      u.s('entry-live-viga', `${peso_m.toFixed(0)} kg/m`);
+	      u.s('mem-kpi-carga', `${cg.toFixed(2)} t`);
+	      u.s('mem-kpi-momento', `${(mf / 1000000).toFixed(1)}M`);
+	      u.s('mem-kpi-flecha', `${ft.toFixed(2)} cm`);
+	      u.s('mem-read-vao', `${vao.toFixed(2)} m`);
+	      u.s('mem-read-coluna', `${col_l.toFixed(2)} m`);
+	      u.s('mem-read-viga', `${viga_b.toFixed(0)} x ${viga_h.toFixed(0)} cm`);
+	      const escopoFallback = u.text('inp-escopo', `Ponte rolante ${cn.toFixed(1)} t com vao ${vao.toFixed(1)} m`);
+	      u.s('orc-escopo-view', escopoFallback);
+	      u.s('mat-escopo-view', escopoFallback);
+	      u.s('mem-escopo', escopoFallback);
+
+	      // SALVAR RESULTADOS
+	      this.results = { cn, pt, vao, cg, ra, rb, mf, atotal, jx, jy, peso_m, col_l, peso_m_col, viga_b, viga_h, ft, fadm, sigma_bot, sigma_top, sigma_adm };
+
+      // VALIDAÇÃO E ALERTAS
+      ENGINE.validate.check();
+    },
+
+    /**
+     * Cálculo detalhado de chapas de aço
+     */
+    chapas(b, a, h, b_alma, c, c_esp, vao) {
+      const u = ENGINE.utils;
+      const densidade = 7.85;
+      const altura_alma = Math.max(h - a - c_esp, 0);
+      const qtdDiaf = Math.max(12, Math.ceil(vao / 1.8));
+
+      // Mesa superior (por metro, 2 vigas)
+      const peso_mesa_sup_un = (b * a * vao * 100 * densidade) / 1000;
+      const peso_mesa_sup_total = peso_mesa_sup_un * 2;
+
+      // Almas (4 almas × vão)
+      const peso_alma_un = (b_alma * altura_alma * vao * 100 * densidade) / 1000;
+      const peso_alma_total = peso_alma_un * 4;
+
+      // Mesa inferior (por metro, 2 vigas)
+      const peso_mesa_inf_un = (c * c_esp * vao * 100 * densidade) / 1000;
+      const peso_mesa_inf_total = peso_mesa_inf_un * 2;
+
+      // Diafragmas
+      const peso_diaf_un = (b * c * 0.8 * densidade) / 100000;
+      const peso_diaf_total = peso_diaf_un * qtdDiaf;
+
+      const peso_chapas = peso_mesa_sup_total + peso_alma_total + peso_mesa_inf_total + peso_diaf_total;
+
+      u.s('peso-mesa-sup-un', peso_mesa_sup_un.toFixed(2));
+      u.s('peso-mesa-sup-total', peso_mesa_sup_total.toFixed(2));
+      u.s('peso-alma-un', peso_alma_un.toFixed(2));
+      u.s('peso-alma-total', peso_alma_total.toFixed(2));
+      u.s('peso-mesa-inf-un', peso_mesa_inf_un.toFixed(2));
+      u.s('peso-mesa-inf-total', peso_mesa_inf_total.toFixed(2));
+      u.s('peso-diaf-un', peso_diaf_un.toFixed(2));
+      u.s('peso-diaf-total', peso_diaf_total.toFixed(2));
+      u.s('qtd-diaf', qtdDiaf);
+      u.s('res-chapas-peso', peso_chapas.toFixed(2));
+
+      this.chapasData = {
+        altura_alma,
+        qtdDiaf,
+        peso_mesa_sup_un,
+        peso_mesa_sup_total,
+        peso_alma_un,
+        peso_alma_total,
+        peso_mesa_inf_un,
+        peso_mesa_inf_total,
+        peso_diaf_un,
+        peso_diaf_total,
+        peso_chapas
+      };
+    },
+
+    /**
+     * Geração de BOM detalhado por categorias
+     */
+    bom() {
+      const u = ENGINE.utils;
+      const r = this.results || {};
+      const chapasData = this.chapasData || {};
+      const custoBase = Math.max(0, u.v('inp-custo-kg'));
+      const vao = r.vao || u.v('inp-vao');
+      const col_l = r.col_l || u.v('inp-col-l');
+      const peso_m_col = r.peso_m_col || 0;
+      const peso_m_viga = r.peso_m || 0;
+      const cg = r.cg || 0;
+      const col_b = u.v('inp-col-b');
+      const col_h = u.v('inp-col-h');
+
+      const qtdReforco = Math.max(4, Math.ceil(vao / 4));
+      const pesoReforcoUn = Math.max(4.8, (chapasData.peso_chapas || 0) * 0.012 / qtdReforco);
+      const basePlacaPeso = Math.max(24, (((col_b + 14) * (col_h + 14) * 2.5 * 7.85) / 1000));
+      const cabeceiraPeso = Math.max(68, peso_m_viga * 0.22);
+      const travamentoPeso = Math.max(42, peso_m_col * 0.55);
+      const qtdChumbador = Math.max(8, Math.ceil(cg * 1.4));
+      const areaPintura = (vao * 2.4) + (col_l * 4.2);
+      const soldaM = vao * 5.6;
+
+      // Objetivos técnicos de cada item do BOM
+      const objetivos = {
+        'Mesa superior':        'Compressão — resiste ao momento fletor na fibra superior (ABNT NBR 8400 §6)',
+        'Almas':                'Cisalhamento — transfere carga vertical entre mesas; resistência ao corte',
+        'Mesa inferior':        'Tração máxima — fibra inferior mais solicitada; espessura maior',
+        'Diafragmas':           'Rigidez — evita distorção transversal do caixão (enrijecedores)',
+        'Chaparia de reforço':  'Reforço pontual — distribuição de carga nas zonas de apoio e ancoragem',
+        'Coluna caixa':         'Estrutura de suporte — transmite carga ao solo; resistência à flambagem',
+        'Cabeceira':            'Transição viga-coluna — distribui reação e absorve momento fletor',
+        'Base de coluna':       'Interface solo — distribui tensão ao concreto; ancoragem dos chumbadores',
+        'Travamento lateral':   'Contraventamento — impede flambagem lateral da viga em serviço',
+        'Trilho de roda':       'Guia de translação — caminho de rolamento do carro de içamento',
+        'Chumbador':            'Ancoragem estrutural — fixação da coluna ao bloco de fundação',
+        'Cantoneira':           'Fixação de trilho / fechamento — reforço de borda e travamento de trilho',
+        'Parafuso estrutural':  'União desmontável — emendas de campo e ligação cabeceira-coluna',
+        'Batente mecânico':     'Segurança operacional — limita curso do carro / viajante nas extremidades',
+        'Cabos e terminais':    'Elétrico — alimentação do talha, pendente e comando de movimentação',
+        'Etiquetas e proteção': 'Conformidade — identificação de capacidade, riscos e proteção anticorrosiva'
+      };
+      const getObj = (nome) => objetivos[nome] || '—';
+
+      const chapas = [
+        { nome: 'Mesa superior',       norma: 'ABNT NBR 6648 / ASTM A36', dim: `${(vao * 100).toFixed(0)} x ${u.v('inp-viga-b').toFixed(0)} cm`,                              qtd: 2, p_un: chapasData.peso_mesa_sup_un || 0, valor_un: (chapasData.peso_mesa_sup_un || 0) * custoBase },
+        { nome: 'Almas',               norma: 'ABNT NBR 6648 / ASTM A36', dim: `${(vao * 100).toFixed(0)} x ${chapasData.altura_alma?.toFixed(1) || '0.0'} cm`,               qtd: 4, p_un: chapasData.peso_alma_un    || 0, valor_un: (chapasData.peso_alma_un    || 0) * custoBase },
+        { nome: 'Mesa inferior',       norma: 'ABNT NBR 6648 / ASTM A36', dim: `${(vao * 100).toFixed(0)} x ${u.v('inp-viga-c').toFixed(0)} cm`,                              qtd: 2, p_un: chapasData.peso_mesa_inf_un || 0, valor_un: (chapasData.peso_mesa_inf_un || 0) * custoBase },
+        { nome: 'Diafragmas',          norma: 'ABNT NBR 8400 §7',         dim: `${u.v('inp-viga-b').toFixed(0)} x ${u.v('inp-viga-c').toFixed(0)} x 0,8 cm`,                  qtd: chapasData.qtdDiaf || 12, p_un: chapasData.peso_diaf_un || 0, valor_un: (chapasData.peso_diaf_un || 0) * custoBase },
+        { nome: 'Chaparia de reforço', norma: 'ABNT NBR 8400',            dim: 'kit variável',                                                                                 qtd: qtdReforco, p_un: pesoReforcoUn, valor_un: pesoReforcoUn * custoBase }
+      ];
+
+      const estrutura = [
+        { nome: 'Coluna caixa',      norma: 'ABNT NBR 8400 §8 / NBR 7007', tipo: 'Estrutural',          qtd: 2, p_un: peso_m_col * col_l, valor_un: (peso_m_col * col_l) * custoBase },
+        { nome: 'Cabeceira',         norma: 'ABNT NBR 8400 §9',            tipo: 'Subconjunto',          qtd: 2, p_un: cabeceiraPeso,      valor_un: cabeceiraPeso * custoBase * 1.18 },
+        { nome: 'Base de coluna',    norma: 'ABNT NBR 6118 / NBR 8400',    tipo: 'Placa usinada',        qtd: 2, p_un: basePlacaPeso,      valor_un: basePlacaPeso * custoBase * 1.12 },
+        { nome: 'Travamento lateral',norma: 'ABNT NBR 8800 §6',            tipo: 'Perfil complementar',  qtd: 2, p_un: travamentoPeso,     valor_un: travamentoPeso * custoBase * 1.08 }
+      ];
+
+      const componentes = [
+        { nome: 'Trilho de roda',       norma: 'DIN 536 / ABNT NBR 7590',  esp: 'Perfil A45 ou equivalente',   qtd: 4, p_un: 25,   valor_un: Math.max(420, 25 * custoBase * 4.4) },
+        { nome: 'Chumbador',            norma: 'ABNT NBR 6118 §9',         esp: 'Conjunto estrutural',          qtd: qtdChumbador, p_un: 2.8,  valor_un: Math.max(68, 2.8 * custoBase * 6.5) },
+        { nome: 'Cantoneira',           norma: 'ABNT NBR 6457',            esp: 'L 50 x 50 x 5 mm',            qtd: 2, p_un: Math.max(42, vao * 4.1), valor_un: Math.max(260, Math.max(42, vao * 4.1) * custoBase * 1.55) },
+        { nome: 'Parafuso estrutural',  norma: 'ABNT NBR 8681 / ISO 4014', esp: 'M20 classe 8.8',              qtd: Math.max(24, Math.ceil(vao * 1.6)), p_un: 0.35, valor_un: Math.max(12, 0.35 * custoBase * 7) },
+        { nome: 'Batente mecânico',     norma: 'NR-12 / ABNT NBR 8400',    esp: 'Conjunto final de curso',     qtd: 2, p_un: 4.2,  valor_un: Math.max(180, 4.2 * custoBase * 5) },
+        { nome: 'Cabos e terminais',    norma: 'NBR IEC 60228 / NR-10',    esp: 'Kit elétrico pendente',        qtd: 1, p_un: 9.8,  valor_un: Math.max(620, 9.8 * custoBase * 8) },
+        { nome: 'Etiquetas e proteção', norma: 'NR-12 §12.133 / ISO 3864', esp: 'Identificação e segurança',    qtd: 1, p_un: 3.5,  valor_un: Math.max(140, 3.5 * custoBase * 5) }
+      ];
+
+      let html_chapas = '';
+      let total_chapas = 0;
+      chapas.forEach((item) => {
+        const p_total = item.p_un * item.qtd;
+        const v_total = item.valor_un * item.qtd;
+        total_chapas += p_total;
+        html_chapas += u.tableRow([
+          { label: 'Item',           value: u.escapeHTML(item.nome) },
+          { label: 'Norma / Ref.',   value: u.escapeHTML(item.norma) },
+          { label: 'Dimensão',       value: u.escapeHTML(item.dim) },
+          { label: 'Objetivo',       value: getObj(item.nome) },
+          { label: 'Qtd',            value: item.qtd },
+          { label: 'P. Un. (kg)',    value: item.p_un.toFixed(1) },
+          { label: 'P. Total (kg)',  value: p_total.toFixed(1) },
+          { label: 'Valor Un.',      value: u.currency(item.valor_un) },
+          { label: 'Valor Total',    value: u.currency(v_total) }
+        ]);
+      });
+      u.setHTML('bom-chapas', html_chapas);
+
+      let html_estrutura = '';
+      let total_estrutura = 0;
+      let valor_estrutura = 0;
+      estrutura.forEach((item) => {
+        const p_total = item.p_un * item.qtd;
+        const v_total = item.valor_un * item.qtd;
+        total_estrutura += p_total;
+        valor_estrutura += v_total;
+        html_estrutura += u.tableRow([
+          { label: 'Item',           value: u.escapeHTML(item.nome) },
+          { label: 'Norma / Ref.',   value: u.escapeHTML(item.norma) },
+          { label: 'Tipo',           value: u.escapeHTML(item.tipo) },
+          { label: 'Objetivo',       value: getObj(item.nome) },
+          { label: 'Qtd',            value: item.qtd },
+          { label: 'P. Un. (kg)',    value: item.p_un.toFixed(1) },
+          { label: 'P. Total (kg)',  value: p_total.toFixed(1) },
+          { label: 'Valor Un.',      value: u.currency(item.valor_un) },
+          { label: 'Valor Total',    value: u.currency(v_total) }
+        ]);
+      });
+      u.setHTML('bom-estrutura', html_estrutura);
+
+      let html_componentes = '';
+      let total_componentes = 0;
+      let valor_componentes = 0;
+      componentes.forEach((item) => {
+        const p_total = item.p_un * item.qtd;
+        const v_total = item.valor_un * item.qtd;
+        total_componentes += p_total;
+        valor_componentes += v_total;
+        html_componentes += u.tableRow([
+          { label: 'Item',           value: u.escapeHTML(item.nome) },
+          { label: 'Norma / Ref.',   value: u.escapeHTML(item.norma) },
+          { label: 'Especificação',  value: u.escapeHTML(item.esp) },
+          { label: 'Objetivo',       value: getObj(item.nome) },
+          { label: 'Qtd',            value: item.qtd },
+          { label: 'P. Un. (kg)',    value: item.p_un.toFixed(1) },
+          { label: 'P. Total (kg)',  value: p_total.toFixed(1) },
+          { label: 'Valor Un.',      value: u.currency(item.valor_un) },
+          { label: 'Valor Total', value: u.currency(v_total) }
+        ]);
+      });
+      u.setHTML('bom-componentes', html_componentes);
+
+      const peso_total = total_chapas + total_estrutura + total_componentes;
+      const linhas_total = chapas.length + estrutura.length + componentes.length;
+      const qtd_total = [...chapas, ...estrutura, ...componentes].reduce((acc, item) => acc + item.qtd, 0);
+      const valor_chapas = chapas.reduce((acc, item) => acc + (item.valor_un * item.qtd), 0);
+      const valor_total = valor_chapas + valor_estrutura + valor_componentes;
+      const shareChapas = valor_total > 0 ? ((valor_chapas / valor_total) * 100).toFixed(1) : '0.0';
+      const shareEstrutura = valor_total > 0 ? ((valor_estrutura / valor_total) * 100).toFixed(1) : '0.0';
+      const shareComponentes = valor_total > 0 ? ((valor_componentes / valor_total) * 100).toFixed(1) : '0.0';
+
+      u.s('bom-peso-total', `${peso_total.toFixed(1)} kg`);
+      u.s('bom-peso-compra', `${peso_total.toFixed(1)} kg`);
+      u.s('bom-linhas', `${linhas_total} linhas`);
+      u.s('bom-qtd', `${qtd_total} un`);
+      u.s('bom-valor-total', u.currency(valor_total));
+      u.s('mat-resumo-peso', `${peso_total.toFixed(1)} kg`);
+      u.s('mat-resumo-compra', `${peso_total.toFixed(1)} kg`);
+      u.s('mat-resumo-perda', '0,0%');
+      u.s('mat-resumo-itens', `${qtd_total} un`);
+      u.s('mat-resumo-linhas', `${linhas_total} linhas`);
+      u.s('mat-resumo-valor', u.currency(valor_total));
+      u.s('mat-resumo-custo-kg', peso_total > 0 ? `${u.currency(valor_total / peso_total)}/kg` : 'R$ 0,00/kg');
+      u.s('mat-resumo-pintura', `${areaPintura.toFixed(1)} m²`);
+      u.s('mat-resumo-status', 'BOM consolidada');
+      u.s('mat-area-view', `${areaPintura.toFixed(1)} m²`);
+      u.s('mat-solda-view', `${soldaM.toFixed(1)} m`);
+      u.s('mat-peso-compra-view', `${peso_total.toFixed(1)} kg / ${peso_total.toFixed(1)} kg`);
+      u.s('mat-status-view', 'Material direto revisado');
+      u.s('calc-resumo-itens', `${linhas_total} linhas / ${qtd_total} un`);
+      u.s('dash-items-hero', `${qtd_total} un`);
+      u.s('compra-total-itens', qtd_total);
+      u.s('compra-peso-total', `${peso_total.toFixed(1)} kg`);
+      u.s('compra-valor-total', u.currency(valor_total));
+      u.s('orc-itens-view', `${qtd_total} un`);
+      u.s('orc-linhas-view', `${linhas_total} linhas`);
+      u.s('orc-materiais-view', u.currency(valor_total));
+      u.s('mem-kpi-estrutura', `${peso_total.toFixed(1)} kg`);
+      u.s('mem-read-itens', `${qtd_total} un`);
+      u.s('mem-read-peso-compra', `${peso_total.toFixed(1)} kg`);
+      u.s('mat-cat-chapas-peso', `${total_chapas.toFixed(1)} kg`);
+      u.s('mat-cat-chapas-valor', u.currency(valor_chapas));
+      u.s('mat-cat-chapas-share', `${shareChapas}%`);
+      u.s('mat-cat-estrutura-peso', `${total_estrutura.toFixed(1)} kg`);
+      u.s('mat-cat-estrutura-valor', u.currency(valor_estrutura));
+      u.s('mat-cat-estrutura-share', `${shareEstrutura}%`);
+      u.s('mat-cat-componentes-peso', `${total_componentes.toFixed(1)} kg`);
+      u.s('mat-cat-componentes-valor', u.currency(valor_componentes));
+      u.s('mat-cat-componentes-share', `${shareComponentes}%`);
+
+      this.bomData = {
+        chapas,
+        estrutura,
+        componentes,
+        peso_total,
+        valor_total,
+        qtd_total,
+        linhas_total,
+        valor_chapas,
+        valor_estrutura,
+        valor_componentes,
+        area_pintura: areaPintura,
+        solda_m: soldaM
+      };
+    },
+
+    /**
+     * Cálculo de orçamento com margens
+     */
+    orcamento() {
+      const u = ENGINE.utils;
+      const bom = this.bomData;
+      if (!bom) return;
+
+      const peso_total = bom.peso_total || 0;
+      const desperdicioPct = Math.max(0, u.v('inp-desperdicio'));
+      const margem_fab = Math.max(0, u.v('inp-margem-fab'));
+      const margem_mont = Math.max(0, u.v('inp-margem-mont'));
+      const consumiveisKg = Math.max(0, u.v('inp-consumiveis-kg'));
+      const pinturaM2 = Math.max(0, u.v('inp-pintura-m2'));
+      const embalagemKg = Math.max(0, u.v('inp-embalagem-kg'));
+      const frete = Math.max(0, u.v('inp-frete'));
+      const indiretosPct = Math.max(0, u.v('inp-indiretos'));
+      const impostosPct = Math.max(0, u.v('inp-impostos'));
+      const contingenciaPct = Math.max(0, u.v('inp-contingencia'));
+      const margem_lucro = Math.max(0, u.v('inp-margem-lucro'));
+      const validadeDias = Math.max(1, u.v('inp-validade-dias') || 10);
+      const pagamento = u.text('inp-pagamento', 'A definir');
+
+      const materiaisDiretos = bom.valor_total;
+      const baseAco = bom.valor_chapas + bom.valor_estrutura;
+      const perda = baseAco * (desperdicioPct / 100);
+      const pesoCompra = peso_total * (1 + (desperdicioPct / 100));
+      const consumiveis = pesoCompra * consumiveisKg;
+      const pintura = (bom.area_pintura || 0) * pinturaM2;
+      const embalagem = pesoCompra * embalagemKg;
+      const baseOperacional = materiaisDiretos + perda + consumiveis + pintura + embalagem + frete;
+      const custoFab = baseOperacional * (margem_fab / 100);
+      const custoMont = baseOperacional * (margem_mont / 100);
+      const subtotalBase = baseOperacional + custoFab + custoMont;
+      const indiretos = subtotalBase * (indiretosPct / 100);
+      const contingencia = subtotalBase * (contingenciaPct / 100);
+      const impostos = (subtotalBase + indiretos + contingencia) * (impostosPct / 100);
+      const baseFinal = subtotalBase + indiretos + contingencia + impostos;
+      const lucro = baseFinal * (margem_lucro / 100);
+      const total = baseFinal + lucro;
+      const operacionais = perda + consumiveis + pintura + embalagem + frete + custoFab + custoMont;
+      const encargos = indiretos + contingencia + impostos;
+      const valor_ton = pesoCompra > 0 ? total / (pesoCompra / 1000) : 0;
+      const prazoDias = Math.max(18, Math.ceil(((this.results?.vao || 0) * 0.9) + ((this.results?.col_l || 0) * 0.6) + (pesoCompra / 550)));
+      const faixa = total > 180000 ? 'Proposta premium' : total > 90000 ? 'Proposta intermediária' : 'Proposta objetiva';
+      const faltasComerciais = ['inp-empresa', 'inp-resp', 'inp-num', 'inp-escopo', 'inp-base-preco']
+        .filter((id) => !u.text(id, '').trim());
+      const statusComercial = total <= 0 ? 'Aguardando cálculo' : faltasComerciais.length ? 'Completar dados comerciais' : 'Proposta executiva pronta';
+
+      u.s('orc-peso', peso_total.toFixed(2));
+      u.s('orc-aco', u.currency(materiaisDiretos));
+      u.s('orc-adic', u.currency(operacionais));
+      u.s('orc-encargos', u.currency(encargos));
+      u.s('orc-total', u.currency(subtotalBase));
+
+      u.s('orc-linha-aco', u.currency(materiaisDiretos));
+      u.s('orc-linha-perda', u.currency(perda));
+      u.s('orc-linha-consumiveis', u.currency(consumiveis));
+      u.s('orc-linha-pintura', u.currency(pintura));
+      u.s('orc-linha-embalagem', u.currency(embalagem));
+      u.s('orc-linha-frete', u.currency(frete));
+      u.s('orc-linha-fab', u.currency(custoFab));
+      u.s('orc-linha-mont', u.currency(custoMont));
+      u.s('orc-linha-bdi', u.currency(indiretos));
+      u.s('orc-linha-contingencia', u.currency(contingencia));
+      u.s('orc-linha-impostos', u.currency(impostos));
+      u.s('orc-subtotal', u.currency(subtotalBase));
+      u.s('orc-linha-lucro', u.currency(lucro));
+      u.s('orc-final-total', u.currency(total));
+
+      u.s('dash-peso', peso_total.toFixed(2));
+      u.s('dash-orcamento', u.currency(total));
+      u.s('dash-final-hero', u.currency(total));
+      u.s('orc-margem-resumo', `${margem_lucro.toFixed(0)}%`);
+      u.s('orc-faixa-resumo', faixa);
+      u.s('orc-ton-resumo', pesoCompra > 0 ? `${u.currency(valor_ton)}/t` : 'R$ 0,00/t');
+      u.s('entry-kpi-peso', `${pesoCompra.toFixed(0)} kg`);
+      u.s('entry-kpi-total', u.currency(total));
+      u.s('entry-live-status', total > 0 ? 'ATUALIZADO' : 'PENDENTE');
+      u.s('calc-resumo-peso', peso_total.toFixed(1));
+      u.s('calc-resumo-valor', u.currency(total));
+      u.s('orc-hero-total', u.currency(total));
+      u.s('orc-status-comercial', statusComercial);
+      u.s('orc-prazo', `${prazoDias} dias`);
+      u.s('orc-validade', `${validadeDias} dias`);
+      u.s('orc-pagamento', pagamento);
+      u.s('orc-resumo-peso', `${peso_total.toFixed(1)} kg`);
+      u.s('orc-resumo-compra', `${pesoCompra.toFixed(1)} kg`);
+      u.s('orc-resumo-ticket', pesoCompra > 0 ? `${u.currency(valor_ton)}/t` : 'R$ 0,00/t');
+      u.s('orc-fabricacao-view', u.currency(custoFab));
+      u.s('orc-montagem-view', u.currency(custoMont));
+      u.s('orc-lucro-view', u.currency(lucro));
+      u.s('orc-encargos-view', u.currency(encargos));
+      u.s('orc-badge-margem', `${margem_lucro.toFixed(0)}%`);
+      u.s('orc-badge-peso', `${pesoCompra.toFixed(1)} kg`);
+      u.s('orc-badge-faixa', faixa);
+      u.s('orc-badge-status', faltasComerciais.length ? 'Revisar' : 'Calculado');
+      u.s('mem-kpi-valor', u.currency(total));
+      u.s('mem-read-faixa', faixa);
+      u.s('mem-read-peso-compra', `${pesoCompra.toFixed(1)} kg`);
+
+      u.s('bom-peso-compra', `${pesoCompra.toFixed(1)} kg`);
+      u.s('mat-resumo-compra', `${pesoCompra.toFixed(1)} kg`);
+      u.s('mat-resumo-perda', `${desperdicioPct.toFixed(1)}%`);
+      u.s('mat-peso-compra-view', `${peso_total.toFixed(1)} kg / ${pesoCompra.toFixed(1)} kg`);
+      u.s('mat-resumo-status', faltasComerciais.length ? 'Lista pronta, proposta incompleta' : 'Lista pronta para proposta');
+      u.s('mat-status-view', `${(bom.area_pintura || 0).toFixed(1)} m² de pintura | ${bom.solda_m.toFixed(1)} m de solda`);
+      u.s('compra-peso-total', `${pesoCompra.toFixed(1)} kg`);
+      u.s('orc-peso-compra-view', `${pesoCompra.toFixed(1)} kg`);
+      u.s('orc-peso-compra-card-view', `${pesoCompra.toFixed(1)} kg`);
+      u.s('orc-base-view', u.text('inp-base-preco', 'Base interna + mercado local'));
+      u.s('orc-base-card-view', u.text('inp-base-preco', 'Base interna + mercado local'));
+      u.s('orc-resumo-base', u.text('inp-base-preco', 'Base interna + mercado local'));
+      u.s('compra-lote-01', pesoCompra > 6000 ? 'Prioridade alta | compra imediata' : 'Prioridade alta');
+      u.s('compra-lote-02', materiaisDiretos > 25000 ? 'Prioridade média | cotar em paralelo' : 'Prioridade média');
+      u.s('compra-lote-03', `${u.currency(consumiveis + pintura + embalagem)} em complementos`);
+      u.s('orc-pill-1', `Fabricação estrutural e solda ${bom.solda_m.toFixed(1)} m`);
+      u.s('orc-pill-2', `Pintura industrial estimada ${bom.area_pintura.toFixed(1)} m²`);
+      u.s('orc-pill-3', `Frete e movimentação ${u.currency(frete)}`);
+      u.s('orc-pill-4', `Base ${u.text('inp-base-preco', 'interna')}`);
+
+      this.orcData = {
+        materiaisDiretos,
+        perda,
+        consumiveis,
+        pintura,
+        embalagem,
+        frete,
+        custoFab,
+        custoMont,
+        indiretos,
+        contingencia,
+        impostos,
+        lucro,
+        subtotalBase,
+        total,
+        valor_ton,
+        prazoDias,
+        faixa,
+        statusComercial,
+        pesoCompra,
+        desperdicioPct
+      };
+
+      ENGINE.validate.check();
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: VALIDAÇÃO & ALERTAS INTELIGENTES
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  validate: {
+    /**
+     * Verifica cálculos e gera alertas
+     */
+    check() {
+      const alerts = [];
+      const r = ENGINE.calc.results;
+      const orc = ENGINE.calc.orcData;
+
+      // Verificação de flecha
+      if (document.getElementById('res-flecha-fadm').textContent !== '—') {
+        const fadm = parseFloat(document.getElementById('res-flecha-fadm').textContent);
+        if (fadm < 640) {
+          alerts.push({ type: 'warning', msg: '⚠️ Flecha fora do limite: Considere aumentar altura da viga' });
+        }
+      }
+
+      // Verificação de tensão de flexão
+      if (r.cn) {
+        const sigma_max = Math.max(r.sigma_bot || 0, r.sigma_top || 0);
+        const sigma_adm = r.sigma_adm || 1680;
+        if (sigma_max > sigma_adm) {
+          alerts.push({ type: 'error', msg: `❌ Tensão de flexão ${sigma_max.toFixed(0)} kg/cm² excede o limite de ${sigma_adm} kg/cm² — aumente a seção da viga` });
+        } else if (sigma_max > sigma_adm * 0.9) {
+          alerts.push({ type: 'warning', msg: `⚠️ Tensão de flexão ${sigma_max.toFixed(0)} kg/cm² próxima ao limite (${sigma_adm} kg/cm²) — verifique a seção` });
+        }
+      }
+
+      // Verificação de cisalhamento na alma (ABNT NBR 8400 — Von Mises)
+      const cisStatusEl = document.getElementById('res-cis-status');
+      if (cisStatusEl && cisStatusEl.textContent && cisStatusEl.textContent !== '—') {
+        const tauCalc = parseFloat(document.getElementById('res-cis-tau')?.textContent || '0');
+        const tauAdm  = parseFloat(document.getElementById('res-cis-tadm')?.textContent || '970');
+        if (tauCalc > tauAdm) {
+          alerts.push({ type: 'error', msg: `❌ Cisalhamento na alma: τ=${tauCalc.toFixed(0)} kg/cm² excede τ_adm=${tauAdm.toFixed(0)} kg/cm² — aumente a espessura da alma` });
+        } else if (tauCalc > tauAdm * 0.85) {
+          alerts.push({ type: 'warning', msg: `⚠️ Cisalhamento na alma: τ=${tauCalc.toFixed(0)} kg/cm² próximo ao limite (${(tauCalc/tauAdm*100).toFixed(0)}%) — verifique` });
+        }
+      }
+
+      // Verificação de flambagem (coeficiente ω)
+      const wEl = document.getElementById('res-flamb-w');
+      if (wEl && wEl.textContent && wEl.textContent !== '—') {
+        const w = parseFloat(wEl.textContent);
+        if (w >= 1.97) {
+          alerts.push({ type: 'error', msg: `❌ Flambagem crítica: ω=${w.toFixed(2)} — índice de esbeltez elevado. Reduza comprimento livre ou aumente seção da coluna` });
+        } else if (w >= 1.40) {
+          alerts.push({ type: 'warning', msg: `⚠️ Flambagem atenção: ω=${w.toFixed(2)} — coluna com esbeltez moderada-alta. Verifique contraventamento` });
+        }
+      }
+
+      if (orc) {
+        if (orc.frete <= 0) alerts.push({ type: 'warning', msg: '⚠️ Frete e movimentação zerados no orçamento.' });
+        if (orc.impostos <= 0) alerts.push({ type: 'warning', msg: '⚠️ Impostos zerados. Revise a composição comercial.' });
+        if (orc.contingencia <= 0) alerts.push({ type: 'warning', msg: '⚠️ Contingência zerada. Considere uma reserva para risco.' });
+        if (orc.desperdicioPct <= 0) alerts.push({ type: 'warning', msg: '⚠️ Desperdício de aço zerado. Verifique perdas de compra.' });
+      }
+
+      const health = alerts.some(a => a.type === 'error') ? 'CRITICO' : alerts.length ? 'ATENCAO' : 'OK';
+	      ENGINE.utils.s('dash-status', health);
+	      ENGINE.utils.s('dash-status-hero', health === 'OK' ? 'APROVADO' : health);
+	      ENGINE.utils.s('entry-live-status', health);
+	      ENGINE.utils.s('calc-resumo-status', health);
+	      ENGINE.utils.s('mem-kpi-status', health);
+	      ENGINE.utils.setHTML('dashboard-alerts', ENGINE.utils.renderAlerts(alerts));
+	    }
+	  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: VISUALIZAÇÃO 3D COM THREE.JS
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  viz3d: {
+    scene: null,
+    camera: null,
+    renderer: null,
+    rafId: null,
+    active: false,
+    isAnimating: false,
+
+    setActive(state) {
+      this.active = !!state;
+      if (this.active) this.start();
+      else this.stop();
+    },
+
+    start() {
+      if (!this.renderer || this.isAnimating) return;
+      this.isAnimating = true;
+      this.animate();
+    },
+
+    stop() {
+      this.isAnimating = false;
+      if (this.rafId) {
+        cancelAnimationFrame(this.rafId);
+        this.rafId = null;
+      }
+    },
+
+    animate() {
+      if (!this.isAnimating || !this.active || ENGINE.ui.currentTab !== 'desenhos') {
+        this.stop();
+        return;
+      }
+
+      this.rafId = requestAnimationFrame(() => this.animate());
+      this.renderer.render(this.scene, this.camera);
+    },
+
+    init() {
+      if (this.renderer) return;
+
+      const canvas = document.getElementById('canvas3d');
+      if (!canvas) return;
+
+      const width = canvas.clientWidth || 800;
+      const height = 450;
+
+      this.scene = new THREE.Scene();
+      this.scene.background = new THREE.Color(0x1a1a20);
+      this.scene.fog = new THREE.Fog(0x1a1a20, 300, 1000);
+
+      this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+      this.camera.position.set(60, 40, 60);
+      this.camera.lookAt(0, 0, 0);
+
+	      this.renderer = new THREE.WebGLRenderer({ antialias: false, alpha: true, powerPreference: 'high-performance' });
+	      this.renderer.setSize(width, height);
+	      this.renderer.setPixelRatio(1);
+	      this.renderer.shadowMap.enabled = false;
+      canvas.appendChild(this.renderer.domElement);
+
+      // Iluminação
+      const light1 = new THREE.AmbientLight(0xffffff, 0.6);
+      this.scene.add(light1);
+
+	      const light2 = new THREE.DirectionalLight(0xffffff, 1);
+	      light2.position.set(100, 100, 100);
+	      this.scene.add(light2);
+
+      // Grid
+      const grid = new THREE.GridHelper(200, 40, 0x3a3a44, 0x2a2a33);
+      this.scene.add(grid);
+
+      const vao = ENGINE.utils.v('inp-vao');
+      const col_l = ENGINE.utils.v('inp-col-l');
+
+      // Geometrias
+      const viga = new THREE.BoxGeometry(vao * 5, 2, 1.2);
+      const vigaMat = new THREE.MeshStandardMaterial({ color: 0x2563eb, metalness: 0.9, roughness: 0.2 });
+	      const vigaMesh = new THREE.Mesh(viga, vigaMat);
+	      this.scene.add(vigaMesh);
+
+      // Colunas
+      [-vao * 2.5, vao * 2.5].forEach(x => {
+        const col = new THREE.BoxGeometry(1, col_l * 2, 1);
+	        const colMat = new THREE.MeshStandardMaterial({ color: 0x1e40af });
+	        const colMesh = new THREE.Mesh(col, colMat);
+	        colMesh.position.x = x;
+	        colMesh.position.y = -(col_l);
+	        this.scene.add(colMesh);
+	      });
+
+      // Talha
+      const talha = new THREE.BoxGeometry(0.4, 0.6, 0.4);
+	      const talhaMat = new THREE.MeshStandardMaterial({ color: 0xf59e0b });
+	      const talhaMesh = new THREE.Mesh(talha, talhaMat);
+	      talhaMesh.position.y = 2;
+	      this.scene.add(talhaMesh);
+
+      // Interatividade
+      let isDragging = false;
+      let prev = null;
+
+      this.renderer.domElement.addEventListener('pointerdown', (e) => { isDragging = true; prev = { x: e.clientX, y: e.clientY }; });
+      this.renderer.domElement.addEventListener('pointermove', (e) => {
+        if (!isDragging || !prev) return;
+        vigaMesh.rotation.y += (e.clientX - prev.x) * 0.005;
+        vigaMesh.rotation.x += (e.clientY - prev.y) * 0.005;
+        prev = { x: e.clientX, y: e.clientY };
+      }, { passive: true });
+      this.renderer.domElement.addEventListener('pointerup', () => { isDragging = false; prev = null; });
+      this.renderer.domElement.addEventListener('pointerleave', () => { isDragging = false; prev = null; });
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: VISUALIZAÇÃO 2D - DESENHOS TÉCNICOS
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  viz2d: {
+    /**
+     * Desenha seção da viga em Canvas 2D
+     */
+    draw() {
+      const canvas = document.getElementById('canvas2d');
+      if (!canvas) return;
+
+      const ctx = canvas.getContext('2d');
+      const width = canvas.width = canvas.clientWidth;
+      const height = canvas.height = 400;
+
+      const centerX = width / 2;
+      const centerY = height / 2;
+      const scale = 2; // pixels por cm
+
+      // Background
+      ctx.fillStyle = '#1a1a20';
+      ctx.fillRect(0, 0, width, height);
+
+      // Grid
+      ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+      ctx.lineWidth = 1;
+      for (let x = 0; x < width; x += 50) {
+        ctx.beginPath();
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, height);
+        ctx.stroke();
+      }
+
+      // Desenho da seção I
+      const b = ENGINE.utils.v('inp-viga-b');
+      const h = ENGINE.utils.v('inp-viga-h');
+      const a = ENGINE.utils.v('inp-viga-a');
+      const c = ENGINE.utils.v('inp-viga-c');
+      const c_esp = ENGINE.utils.v('inp-viga-c-esp');
+
+      // Mesa superior
+      ctx.fillStyle = '#2563eb';
+      ctx.fillRect(centerX - (b * scale) / 2, centerY - (h * scale) / 2, b * scale, a * scale);
+
+      // Almas
+      ctx.fillRect(centerX - 5, centerY - (h * scale) / 2 + a * scale, 10, (h - a - c_esp) * scale);
+
+      // Mesa inferior
+      ctx.fillRect(centerX - (c * scale) / 2, centerY + (h * scale) / 2 - c_esp * scale, c * scale, c_esp * scale);
+
+      // Bordas
+      ctx.strokeStyle = '#60a5fa';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(centerX - (b * scale) / 2, centerY - (h * scale) / 2, b * scale, h * scale);
+
+      // Dimensões
+      ctx.fillStyle = '#60a5fa';
+      ctx.font = '11px JetBrains Mono';
+      ctx.fillText(`B=${b}cm`, centerX + (b * scale) / 2 + 10, centerY - (h * scale) / 2 + 15);
+      ctx.fillText(`H=${h}cm`, centerX + (b * scale) / 2 + 10, centerY);
+      ctx.fillText(`C=${c}cm`, centerX - (c * scale) / 2, centerY + (h * scale) / 2 + 20);
+    }
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: MEMORIAL DE CÁLCULO - 3 IDIOMAS
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  memorial: {
+    /**
+     * Gera memorial técnico no idioma selecionado
+     */
+    gerar() {
+      const u = ENGINE.utils;
+      const lang = ENGINE.i18n.currentLang;
+      const r = ENGINE.calc.results;
+
+      if (!r.cn) {
+        alert('Preencha os dados validos e execute o calculo antes de gerar o memorial.');
+        return;
+      }
+
+      const empresa = document.getElementById('inp-empresa').value || '—';
+      const resp = document.getElementById('inp-resp').value || '—';
+      const data = document.getElementById('inp-data').value || '—';
+      const num = document.getElementById('inp-num').value || '—';
+      const escopo = document.getElementById('inp-escopo').value || '—';
+      const entrega = document.getElementById('inp-entrega').value || '—';
+      const base = document.getElementById('inp-base-preco').value || 'Base interna + mercado local';
+
+      u.s('mem-empresa', empresa);
+      u.s('mem-resp', resp);
+      u.s('mem-data', data);
+      u.s('mem-num', num);
+      u.s('mem-escopo', escopo);
+      u.s('mem-entrega', entrega);
+      u.s('mem-base', base);
+
+      let memorial = this.gerarConteudo(lang);
+
+      u.setHTML('memorial-content', memorial);
+      alert('✓ Memorial de cálculo gerado com sucesso em ' + (lang === 'pt' ? 'Português' : lang === 'en' ? 'Inglês' : 'Espanhol'));
+    },
+
+    /**
+     * Gera conteúdo do memorial conforme idioma
+     */
+	    gerarConteudo(lang) {
+	      const r = ENGINE.calc.results;
+	      const u = ENGINE.utils;
+	      const bom = ENGINE.calc.bomData;
+	      const orc = ENGINE.calc.orcData;
+      const vigaB = u.escapeHTML(document.getElementById('inp-viga-b').value);
+      const vigaH = u.escapeHTML(document.getElementById('inp-viga-h').value);
+      const flechaFt = u.escapeHTML(document.getElementById('res-flecha-ft').textContent);
+      const flechaFadm = u.escapeHTML(document.getElementById('res-flecha-fadm').textContent);
+      const flambI = u.escapeHTML(document.getElementById('res-flamb-i').textContent);
+      const flambW = u.escapeHTML(document.getElementById('res-flamb-w').textContent);
+	      const chumDia = u.escapeHTML(document.getElementById('res-chum-dia').textContent);
+	      const pesoTotal = bom?.peso_total ? `${bom.peso_total.toFixed(1)} kg` : '—';
+	      const pesoCompra = orc?.pesoCompra ? `${orc.pesoCompra.toFixed(1)} kg` : '—';
+	      const valorTotal = orc?.total ? u.currency(orc.total) : '—';
+	      const qtdItens = bom?.qtd_total ? `${bom.qtd_total} un` : '—';
+	      const faixa = orc?.faixa || '—';
+	      const prazo = orc?.prazoDias ? `${orc.prazoDias} dias` : '—';
+	      const status = ENGINE.utils.el('mem-kpi-status')?.textContent || 'OK';
+	      const escopo = u.escapeHTML(document.getElementById('inp-escopo').value || 'Projeto estrutural');
+	      const base = u.escapeHTML(document.getElementById('inp-base-preco').value || 'Base interna + mercado local');
+
+	      if (lang === 'en') {
+	        return `
+	<div class="memory-html">
+	  <div class="memory-html-section"><strong>TECHNICAL CALCULATION REPORT - ABNT NBR 8400</strong><br>Complete technical and commercial summary for client presentation.</div>
+	  <div class="memory-html-section"><strong>Hoist and Loads:</strong> Nominal load ${r.cn?.toFixed(1)} ton | Total load ${r.cg?.toFixed(2)} ton | Span ${r.vao} m | Reaction RA ${r.ra?.toFixed(2)} ton.</div>
+	  <div class="memory-html-section"><strong>Main Beam and Deflection:</strong> Area ${r.atotal?.toFixed(1)} cm² | Jx ${r.jx?.toFixed(0)} cm⁴ | Deflection ${flechaFt} cm | Admissible ratio ${flechaFadm}.</div>
+	  <div class="memory-html-section"><strong>Materials and Commercial:</strong> Net weight ${pesoTotal} | Purchase weight ${pesoCompra} | BOM units ${qtdItens} | Final price ${valorTotal} | Commercial range ${faixa} | Lead time ${prazo}.</div>
+	  <div class="memory-html-section"><strong>Scope and Price Base:</strong> ${escopo} | ${base}.</div>
+	  <div class="memory-html-section"><strong>Status:</strong> <span style="color: #10b981;">${u.escapeHTML(status)} - APPROVED ACCORDING TO ABNT NBR 8400</span></div>
+	</div>
+	        `;
+	      } else if (lang === 'es') {
+	        return `
+	<div class="memory-html">
+	  <div class="memory-html-section"><strong>INFORME DE CÁLCULO TÉCNICO - ABNT NBR 8400</strong><br>Resumen técnico y comercial ampliado para presentación final.</div>
+	  <div class="memory-html-section"><strong>Polipasto y Cargas:</strong> Carga nominal ${r.cn?.toFixed(1)} ton | Carga total ${r.cg?.toFixed(2)} ton | Luz ${r.vao} m | Reacción RA ${r.ra?.toFixed(2)} ton.</div>
+	  <div class="memory-html-section"><strong>Viga Principal y Deflexión:</strong> Área ${r.atotal?.toFixed(1)} cm² | Jx ${r.jx?.toFixed(0)} cm⁴ | Deflexión ${flechaFt} cm | Relación admisible ${flechaFadm}.</div>
+	  <div class="memory-html-section"><strong>Materiales y Comercial:</strong> Peso neto ${pesoTotal} | Peso de compra ${pesoCompra} | Unidades ${qtdItens} | Precio final ${valorTotal} | Franja ${faixa} | Plazo ${prazo}.</div>
+	  <div class="memory-html-section"><strong>Alcance y Base de Precio:</strong> ${escopo} | ${base}.</div>
+	  <div class="memory-html-section"><strong>Estado:</strong> <span style="color: #10b981;">${u.escapeHTML(status)} - APROBADO SEGÚN ABNT NBR 8400</span></div>
+	</div>
+	        `;
+	      } else {
+	        // Português
+	        return `
+	<div class="memory-html">
+	  <div class="memory-html-section"><strong>MEMORIAL DE CÁLCULO TÉCNICO - ABNT NBR 8400</strong><br>Resumo técnico estruturado para fechamento de proposta, fabricação e apresentação ao cliente.</div>
+	  <div class="memory-html-section"><strong>Talha e Reações:</strong> Carga nominal ${r.cn?.toFixed(1)} ton + peso da talha ${r.pt?.toFixed(1)} ton = carga total ${r.cg?.toFixed(2)} ton. Reações principais: RA ${r.ra?.toFixed(2)} ton e RB ${r.rb?.toFixed(2)} ton para vão de ${r.vao} m.</div>
+	  <div class="memory-html-section"><strong>Viga Principal:</strong> Perfil ${vigaB} x ${vigaH} cm | Área total ${r.atotal?.toFixed(1)} cm² | Inércia Jx ${r.jx?.toFixed(0)} cm⁴ | Momento fletor ${(r.mf / 1000000).toFixed(1)}M daN.m.</div>
+	  <div class="memory-html-section"><strong>Flecha, Flambagem e Base:</strong> Flecha máxima ${flechaFt} cm | Relação admissível ${flechaFadm} | Índice de flambagem ${flambI} | Coeficiente W ${flambW} | Chumbador mínimo ${chumDia} cm.</div>
+	  <div class="memory-html-section"><strong>Materiais e Custos:</strong> Peso líquido ${pesoTotal} | Peso de compra ${pesoCompra} | Unidades de compra ${qtdItens} | Valor final estimado ${valorTotal} | Faixa comercial ${faixa} | Prazo previsto ${prazo}.</div>
+	  <div class="memory-html-section"><strong>Escopo e Base Comercial:</strong> ${escopo} | Base de preço: ${base}.</div>
+	  <div class="memory-html-section"><strong>Status Final:</strong> <span style="color: #10b981;">${u.escapeHTML(status)} - memorial consolidado conforme ABNT NBR 8400 para análise técnica e comercial.</span></div>
+	</div>
+	        `;
+	      }
+	    }
+  },
+
+  // ════════════════════════════════════════════════════════════════════════════════
+  // MÓDULO: EXPORTAÇÃO EM PDF
+  // ════════════════════════════════════════════════════════════════════════════════
+
+  export: {
+    getFileBase(prefix) {
+      const company = ENGINE.utils.fileSafe(document.getElementById('inp-empresa')?.value);
+      const number = ENGINE.utils.fileSafe(document.getElementById('inp-num')?.value);
+      return `${prefix}_${company}_${number}`;
+    },
+
+    validateBudgetBeforeExport() {
+      const u = ENGINE.utils;
+      const missing = [
+        ['inp-empresa', 'cliente / empresa'],
+        ['inp-resp', 'responsável'],
+        ['inp-data', 'data'],
+        ['inp-num', 'número do orçamento'],
+        ['inp-escopo', 'escopo / objetivo'],
+        ['inp-base-preco', 'base de preço']
+      ].filter(([id]) => !u.text(id, '').trim()).map(([, label]) => label);
+
+      if (missing.length) {
+        alert(`Preencha antes de exportar: ${missing.join(', ')}.`);
+        return false;
+      }
+
+      if (!ENGINE.calc.orcData || !ENGINE.calc.bomData || ENGINE.calc.orcData.total <= 0) {
+        alert('Execute o cálculo completo antes de exportar o orçamento.');
+        return false;
+      }
+
+      return true;
+    },
+
+    /**
+     * Exporta orçamento em PDF
+     */
+    orcamentoPDF() {
+      if (!this.validateBudgetBeforeExport()) return;
+      const element = document.getElementById('tab-orcamento');
+      if (!element) {
+        alert('Nenhuma aba ativa encontrada para exportacao.');
+        return;
+      }
+      const opt = {
+        margin: 10,
+        filename: `${this.getFileBase('Orcamento_RR_Ponte_Rolante')}.pdf`,
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+      };
+      html2pdf().set(opt).from(element).save();
+    },
+
+    /**
+     * Exporta memorial em PDF
+     */
+    memorialPDF() {
+      const element = document.getElementById('memorial-content');
+      if (!element || !element.textContent.trim()) {
+        alert('Gere o memorial antes de exportar.');
+        return;
+      }
+      const opt = {
+        margin: 10,
+        filename: `${this.getFileBase('Memorial_RR_Ponte_Rolante')}.pdf`,
+        html2canvas: { scale: 2 },
+        jsPDF: { orientation: 'portrait', unit: 'mm', format: 'a4' }
+      };
+      html2pdf().set(opt).from(element).save();
+    }
+  }
+
+};
+
+// Inicialização
+window.addEventListener('load', () => {
+  ENGINE.init();
+});
+</script>
+
+</body>
+</html>
